@@ -36,6 +36,66 @@ The application uses a Single Page Application (SPA) approach:
 
 ## 🔁 Flowchart Summary
 
+![Address Book draw.io](/assets/images/address-book-drawio.jpg)
+
+### Main Flow
+
+```text
+Start
+│
+├─ Load App
+│
+├─ LocalStorage Exists?
+│ ├─ NO → Create Empty Contacts
+│ │ → Save
+│ │ → Load Contacts
+│ └─ YES → Load Contacts
+│
+├─ Render Contact List
+│
+└─ User Action
+```
+
+### Add / Edit Contact
+
+```text
+Add / Edit Contact
+↓
+Show Form
+↓
+Input Valid?
+├─ NO → Back to Form
+└─ YES → Duplicate Contact?
+   ├─ YES → Back to Form
+   └─ NO → Save to LocalStorage
+     ↓
+   Render Contact List
+```
+
+### Delete Contact
+
+```text
+Delete Contact
+↓
+Confirm Delete?
+├─ NO → Back to List
+└─ YES → Delete from LocalStorage
+   ↓
+  Render Contact List
+```
+
+### Search Contact
+
+```text
+Search Contact
+↓
+Keyword Entered?
+├─ NO → Show All Contacts
+└─ YES → Apply Filter
+   ↓
+  Render Contact List
+```
+
 ## 🧩 Technologies Used
 
 - HTML5
