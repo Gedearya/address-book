@@ -51,3 +51,31 @@ function isDuplicate(contact, contacts) {
       c.email.toLowerCase() === contact.email.toLowerCase(),
   );
 }
+
+function addContact(contact) {
+  const contacts = loadContacts();
+  const validation = validateContact(contact);
+
+  if (!validation.valid) {
+    console.warn(validation.message);
+    return;
+  }
+
+  if (isDuplicate(contact, contacts)) {
+    console.warn("Contact already exists!");
+    return;
+  }
+
+  const newContact = { id: generateId(), ...contact };
+  contacts.push(newContact);
+  saveContacts(contacts);
+
+  console.log("Contact added:");
+  console.table([newContact]);
+}
+s;
+
+function clearAllContacts() {
+  localStorage.removeItem(STORAGE_KEY);
+  console.log("All contacts cleared!");
+}
