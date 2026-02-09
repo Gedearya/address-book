@@ -73,9 +73,48 @@ function addContact(contact) {
   console.log("Contact added:");
   console.table([newContact]);
 }
-s;
 
 function clearAllContacts() {
   localStorage.removeItem(STORAGE_KEY);
   console.log("All contacts cleared!");
 }
+
+clearAllContacts();
+
+addContact({
+  name: "Gede Arya",
+  phone: "08123456789",
+  email: "gedearya@gmail.com",
+});
+
+addContact({
+  name: "",
+  phone: "08123456789",
+  email: "gedearya@gmail.com",
+});
+
+addContact({
+  name: "Gede Arya",
+  phone: "testnomor",
+  email: "gedearya@gmail.com",
+});
+
+addContact({
+  name: "Gede Arya",
+  phone: "08123456789",
+  email: "gedearya",
+});
+
+addContact({
+  name: "Gede Arya",
+  phone: "08123456789",
+  email: "gedearya@gmail.com",
+});
+
+addContact({
+  name: "Mas Haidar",
+  phone: "082233445566",
+  email: "haidar@gmail.com",
+});
+
+log("All Contacts", loadContacts());
