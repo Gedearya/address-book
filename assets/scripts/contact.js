@@ -7,3 +7,23 @@ const contacts = [
 ];
 
 console.log("contacts:", contacts);
+
+const STORAGE_KEY = "contacts";
+
+function generateId() {
+  return Date.now().toString();
+}
+
+function log(title, data) {
+  console.log(`\n=== ${title} ===`);
+  console.table(data);
+}
+
+function loadContacts() {
+  const data = localStorage.getItem(STORAGE_KEY);
+  return data ? JSON.parse(data) : [];
+}
+
+function saveContacts(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
