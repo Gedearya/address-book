@@ -27,3 +27,27 @@ function loadContacts() {
 function saveContacts(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
+
+function validateContact(contact) {
+  if (!contact.name || !contact.phone || !contact.email) {
+    return { valid: false, message: "All fields are required" };
+  }
+
+  if (!/^[0-9]+$/.test(contact.phone)) {
+    return { valid: false, message: "Phone must contain only numbers" };
+  }
+
+  if (!/^\S+@\S+\.\S+$/.test(contact.email)) {
+    return { valid: false, message: "Invalid email format" };
+  }
+
+  return { valid: true };
+}
+
+function isDuplicate(contact, contacts) {
+  return contacts.some(
+    (c) =>
+      c.phone === contact.phone ||
+      c.email.toLowerCase() === contact.email.toLowerCase(),
+  );
+}
