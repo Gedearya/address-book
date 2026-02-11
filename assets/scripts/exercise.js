@@ -2,35 +2,35 @@ const contacts = [
   {
     id: 1,
     name: "Gede Arya",
-    phone: "+6285-891-234-889",
+    phone: "+62-891-234-889",
     email: "gedearya@gmail.com",
     address: "Jakarta, Indonesia",
   },
   {
     id: 2,
     name: "Ardanu Wicaksono",
-    phone: "+6281-234-567-890",
+    phone: "+62-234-567-890",
     email: "ardanu@gmail.com",
     address: "Riau, Indonesia",
   },
   {
     id: 3,
     name: "Muhammad Alroy",
-    phone: "+6283-456-789-012",
+    phone: "+62-456-789-012",
     email: "alroy@gmail.com",
     address: "Surabaya, Indonesia",
   },
   {
     id: 4,
     name: "Dimas Aditya",
-    phone: "+6284-567-890-123",
+    phone: "+62-567-890-123",
     email: "dimas@gmail.com",
     address: "Bandung, Indonesia",
   },
   {
     id: 5,
     name: "Lazuardy Anugrah",
-    phone: "+6285-678-901-234",
+    phone: "+62-678-901-234",
     email: "lazuardy@mail.com",
     address: "Tangerang, Indonesia",
   },
@@ -87,3 +87,6 @@ function divideNumbers(numberA, numberB) {
 }
 
 console.log(divideNumbers(10, 2));
+
+const age = 20;
+const isAdult = age >= 17 ? "You're mature" : "You're not mature yet";
