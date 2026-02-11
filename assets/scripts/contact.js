@@ -1,9 +1,39 @@
 const contacts = [
-  { id: "1", name: "John Doe", phone: "08123", email: "john@mail.com" },
-  { id: "2", name: "Jane Smith", phone: "08234", email: "jane@mail.com" },
-  { id: "3", name: "Bob Johnson", phone: "08345", email: "bob@mail.com" },
-  { id: "4", name: "Alice Williams", phone: "08456", email: "alice@mail.com" },
-  { id: "5", name: "Charlie Brown", phone: "08567", email: "charlie@mail.com" },
+  {
+    id: "1",
+    name: "Gede Arya",
+    phone: "+6285-891-234-889",
+    email: "gedearya@gmail.com",
+    address: "Jakarta, Indonesia",
+  },
+  {
+    id: "2",
+    name: "Ardanu Wicaksono",
+    phone: "+6281-234-567-890",
+    email: "ardanu@gmail.com",
+    address: "Riau, Indonesia",
+  },
+  {
+    id: "3",
+    name: "Muhammad Alroy",
+    phone: "+6283-456-789-012",
+    email: "alroy@gmail.com",
+    address: "Surabaya, Indonesia",
+  },
+  {
+    id: "4",
+    name: "Dimas Aditya",
+    phone: "+6284-567-890-123",
+    email: "dimas@gmail.com",
+    address: "Bandung, Indonesia",
+  },
+  {
+    id: "5",
+    name: "Lazuardy Anugrah",
+    phone: "+6285-678-901-234",
+    email: "lazuardy@mail.com",
+    address: "Tangerang, Indonesia",
+  },
 ];
 
 console.log("contacts:", contacts);
