@@ -1,7 +1,10 @@
 const STORAGE_KEY = "contacts";
 
+let currentId = 0;
+
 function generateId() {
-  return Date.now();
+  currentId += 1;
+  return currentId;
 }
 
 function log(title, data) {
