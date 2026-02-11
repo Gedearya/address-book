@@ -61,3 +61,29 @@ console.log(a - b);
 console.log(a * b);
 console.log(a / b);
 console.log(a % b);
+
+const exampleAnimal = {
+  name: "Cat",
+  color: "Black",
+  food: ["whiskas", "proplan", "meo"],
+};
+
+function describeAnimal(animal) {
+  console.log(`${animal.name} has ${animal.color} color,
+with favorite food: ${animal.food.join(", ")}`);
+}
+
+describeAnimal(exampleAnimal);
+
+function sumNumbers(numberA, numberB) {
+  return numberA + numberB;
+}
+
+console.log(sumNumbers(1, 2));
+console.log(sumNumbers(3, 4));
+
+function divideNumbers(numberA, numberB) {
+  return numberA / numberB;
+}
+
+console.log(divideNumbers(10, 2));
