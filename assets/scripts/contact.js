@@ -127,6 +127,13 @@ addContact({
   address: "BSD, Indonesia",
 });
 
+addContact({
+  name: "Mas Ben",
+  phone: "+62-851-581-931",
+  email: "ben@gmail.com",
+  address: "Kediri, Indonesia",
+});
+
 log("All Contacts", loadContacts());
 
 searchContacts("gede");
