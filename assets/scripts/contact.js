@@ -23,8 +23,11 @@ function validateContact(contact) {
     return { valid: false, message: "All fields are required" };
   }
 
-  if (!/^[0-9]+$/.test(contact.phone)) {
-    return { valid: false, message: "Phone must contain only numbers" };
+  if (!/^[0-9,+\-]+$/.test(contact.phone)) {
+    return {
+      valid: false,
+      message: "Phone must contain only numbers, hyphens, and plus signs",
+    };
   }
 
   if (!/^\S+@\S+\.\S+$/.test(contact.email)) {
