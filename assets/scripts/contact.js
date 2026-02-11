@@ -19,7 +19,7 @@ function saveContacts(data) {
 }
 
 function validateContact(contact) {
-  if (!contact.name || !contact.phone || !contact.email) {
+  if (!contact.name || !contact.phone || !contact.email || !contact.address) {
     return { valid: false, message: "All fields are required" };
   }
 
@@ -75,36 +75,42 @@ addContact({
   name: "Gede Arya",
   phone: "08123456789",
   email: "gedearya@gmail.com",
+  address: "Jakarta, Indonesia",
 });
 
 addContact({
   name: "",
   phone: "08123456789",
   email: "gedearya@gmail.com",
+  address: "Jakarta, Indonesia",
 });
 
 addContact({
   name: "Gede Arya",
   phone: "testnomor",
   email: "gedearya@gmail.com",
+  address: "Jakarta, Indonesia",
 });
 
 addContact({
   name: "Gede Arya",
   phone: "08123456789",
   email: "gedearya",
+  address: "Jakarta, Indonesia",
 });
 
 addContact({
   name: "Gede Arya",
   phone: "08123456789",
   email: "gedearya@gmail.com",
+  address: "Jakarta, Indonesia",
 });
 
 addContact({
   name: "Mas Haidar",
   phone: "082233445566",
   email: "haidar@gmail.com",
+  address: "BSD, Indonesia",
 });
 
 log("All Contacts", loadContacts());
