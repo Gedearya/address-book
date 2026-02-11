@@ -69,18 +69,26 @@ function clearAllContacts() {
   console.log("All contacts cleared!");
 }
 
+function searchContacts(keyword) {
+  const result = loadContacts().filter((c) =>
+    c.name.toLowerCase().includes(keyword.toLowerCase()),
+  );
+
+  log(`Search Result: "${keyword}"`, result);
+}
+
 clearAllContacts();
 
 addContact({
   name: "Gede Arya",
-  phone: "08123456789",
+  phone: "+62-891-234-889",
   email: "gedearya@gmail.com",
   address: "Jakarta, Indonesia",
 });
 
 addContact({
   name: "",
-  phone: "08123456789",
+  phone: "+62-891-234-889",
   email: "gedearya@gmail.com",
   address: "Jakarta, Indonesia",
 });
@@ -94,23 +102,25 @@ addContact({
 
 addContact({
   name: "Gede Arya",
-  phone: "08123456789",
+  phone: "+62-891-234-889",
   email: "gedearya",
   address: "Jakarta, Indonesia",
 });
 
 addContact({
   name: "Gede Arya",
-  phone: "08123456789",
+  phone: "+62-891-234-889",
   email: "gedearya@gmail.com",
   address: "Jakarta, Indonesia",
 });
 
 addContact({
   name: "Mas Haidar",
-  phone: "082233445566",
+  phone: "+62-851-234-600",
   email: "haidar@gmail.com",
   address: "BSD, Indonesia",
 });
 
 log("All Contacts", loadContacts());
+
+searchContacts("gede");
