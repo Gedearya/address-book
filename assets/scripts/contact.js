@@ -1,34 +1,34 @@
 const contacts = [
   {
-    id: "1",
+    id: 1,
     name: "Gede Arya",
     phone: "+6285-891-234-889",
     email: "gedearya@gmail.com",
     address: "Jakarta, Indonesia",
   },
   {
-    id: "2",
+    id: 2,
     name: "Ardanu Wicaksono",
     phone: "+6281-234-567-890",
     email: "ardanu@gmail.com",
     address: "Riau, Indonesia",
   },
   {
-    id: "3",
+    id: 3,
     name: "Muhammad Alroy",
     phone: "+6283-456-789-012",
     email: "alroy@gmail.com",
     address: "Surabaya, Indonesia",
   },
   {
-    id: "4",
+    id: 4,
     name: "Dimas Aditya",
     phone: "+6284-567-890-123",
     email: "dimas@gmail.com",
     address: "Bandung, Indonesia",
   },
   {
-    id: "5",
+    id: 5,
     name: "Lazuardy Anugrah",
     phone: "+6285-678-901-234",
     email: "lazuardy@mail.com",
@@ -41,7 +41,7 @@ console.log("contacts:", contacts);
 const STORAGE_KEY = "contacts";
 
 function generateId() {
-  return Date.now().toString();
+  return Date.now();
 }
 
 function log(title, data) {
