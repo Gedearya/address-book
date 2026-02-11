@@ -110,10 +110,11 @@ Keyword Entered?
 ```json
 [
   {
-    "id": "1",
-    "name": "John Doe",
-    "phone": "08123456789",
-    "email": "john@mail.com"
+    "id": 1,
+    "name": "Gede Arya",
+    "phone": "+6285-891-840-666",
+    "email": "gedearya@gmail.com",
+    "address": "Jakarta, Indonesia"
   }
 ]
 ```
