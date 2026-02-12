@@ -1,3 +1,9 @@
+let currentId = 5;
+
+function generateId() {
+  currentId += 1;
+  return currentId;
+}
 const contacts = [
   {
     id: 1,
@@ -36,57 +42,63 @@ const contacts = [
   },
 ];
 
-console.log("contacts:", contacts);
-console.table(contacts);
-console.log(contacts[0]);
+console.log(contacts);
 
-let firstName = "I Gede Arya";
-let lastName = "Danny Pratama";
-let phone = "+6285-891-234-889";
-let email = "gedearya@gmail.com";
-let address = "Jakarta, Indonesia";
-let hobby = ["Reading", "Traveling", "Coding"];
-
-console.log("Full Name:", firstName + " " + lastName);
-console.log("Phone:", phone);
-console.log("Email:", email);
-console.log("Address:", address);
-console.log("Hobby:", hobby);
-
-const a = 25;
-const b = 5;
-
-console.log(a + b);
-console.log(a - b);
-console.log(a * b);
-console.log(a / b);
-console.log(a % b);
-
-const exampleAnimal = {
-  name: "Cat",
-  color: "Black",
-  food: ["whiskas", "proplan", "meo"],
-};
-
-function describeAnimal(animal) {
-  console.log(`${animal.name} has ${animal.color} color,
-with favorite food: ${animal.food.join(", ")}`);
+function getValue(id) {
+  return document.getElementById(id).value.trim();
 }
 
-describeAnimal(exampleAnimal);
-
-function sumNumbers(numberA, numberB) {
-  return numberA + numberB;
+function createContact() {
+  return {
+    id: generateId(),
+    name: getValue("name"),
+    phone: getValue("phone"),
+    email: getValue("email"),
+    address: getValue("address"),
+  };
 }
 
-console.log(sumNumbers(1, 2));
-console.log(sumNumbers(3, 4));
-
-function divideNumbers(numberA, numberB) {
-  return numberA / numberB;
+function formatContact(contact) {
+  return `👤 ${contact.name} | 📞 ${contact.phone} | 📧 ${contact.email} | 📍 ${contact.address}`;
 }
 
-console.log(divideNumbers(10, 2));
+function addContact() {
+  const contact = createContact();
+  contacts.push(contact);
 
-const age = 20;
-const isAdult = age >= 17 ? "You're mature" : "You're not mature yet";
+  console.clear();
+  console.log("CONTACT LIST:");
+  contacts.forEach((c, i) => {
+    console.log(`${i + 1}. ${formatContact(c)}`);
+  });
+
+  renderContacts();
+  clearForm();
+}
+
+function renderContacts() {
+  const list = document.getElementById("contactList");
+  list.innerHTML = "";
+
+  contacts.forEach((c) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <div class="contact-info">
+        <span>👤 <strong>${c.name}</strong></span>
+        <span>📞 ${c.phone}</span>
+        <span>📧 ${c.email}</span>
+        <span>📍 ${c.address}</span>
+      </div>
+    `;
+    list.appendChild(li);
+  });
+}
+
+function clearForm() {
+  document.getElementById("name").value = "";
+  document.getElementById("phone").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("address").value = "";
+}
+
+renderContacts();

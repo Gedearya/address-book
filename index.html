@@ -4,71 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Simple Contact App</title>
+    <link rel="stylesheet" href="./assets/styles/style.css" />
   </head>
   <body>
     <h1>Contact App</h1>
-
     <div class="container">
-      <input id="name" placeholder="Full Name" />
-      <input id="phone" placeholder="Phone Number" />
-      <input id="email" placeholder="Email" />
-      <input id="address" placeholder="Address" />
+      <div class="layout">
+        <div class="form-section">
+          <input id="name" placeholder="Full Name" />
+          <input id="phone" placeholder="Phone Number" />
+          <input id="email" placeholder="Email" />
+          <input id="address" placeholder="Address" />
+          <button onclick="addContact()">Add Contact</button>
+        </div>
 
-      <button onclick="addContact()">Add Contact</button>
-
-      <ul id="contactList"></ul>
+        <div class="list-section">
+          <ul id="contactList"></ul>
+        </div>
+      </div>
     </div>
-    <script>
-      const contacts = [];
 
-      function getValue(id) {
-        return document.getElementById(id).value.trim();
-      }
-
-      function createContact() {
-        return {
-          name: getValue("name"),
-          phone: getValue("phone"),
-          email: getValue("email"),
-          address: getValue("address"),
-        };
-      }
-
-      function formatContact(contact) {
-        return `👤 ${contact.name} | 📞 ${contact.phone} | 📧 ${contact.email} | 📍 ${contact.address}`;
-      }
-
-      function addContact() {
-        const contact = createContact();
-        contacts.push(contact);
-
-        console.clear();
-        console.log("CONTACT LIST:");
-        contacts.forEach((c, i) => {
-          console.log(`${i + 1}. ${formatContact(c)}`);
-        });
-
-        renderContacts();
-        clearForm();
-      }
-
-      function renderContacts() {
-        const list = document.getElementById("contactList");
-        list.innerHTML = "";
-
-        contacts.forEach((c) => {
-          const li = document.createElement("li");
-          li.textContent = formatContact(c);
-          list.appendChild(li);
-        });
-      }
-
-      function clearForm() {
-        document.getElementById("name").value = "";
-        document.getElementById("phone").value = "";
-        document.getElementById("email").value = "";
-        document.getElementById("address").value = "";
-      }
-    </script>
+    <script src="./assets/scripts/exercise.js"></script>
   </body>
 </html>
