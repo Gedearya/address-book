@@ -43,6 +43,7 @@ const contacts = [
 ];
 
 console.log(contacts);
+console.table(contacts);
 
 function getValue(id) {
   return document.getElementById(id).value.trim();
@@ -66,12 +67,12 @@ function addContact() {
   const contact = createContact();
   contacts.push(contact);
 
-  console.clear();
-  console.log("CONTACT LIST:");
+  console.log("Contact Added", contact);
+  console.log("==== CONTACT LIST ===:");
   contacts.forEach((c, i) => {
     console.log(`${i + 1}. ${formatContact(c)}`);
   });
-
+  console.table(contacts);
   renderContacts();
   clearForm();
 }
