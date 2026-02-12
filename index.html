@@ -24,6 +24,15 @@
       function getValue(id) {
         return document.getElementById(id).value.trim();
       }
+
+      function createContact() {
+        return {
+          name: getValue("name"),
+          phone: getValue("phone"),
+          email: getValue("email"),
+          address: getValue("address"),
+        };
+      }
     </script>
   </body>
 </html>
