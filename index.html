@@ -51,6 +51,17 @@
         renderContacts();
         clearForm();
       }
+
+      function renderContacts() {
+        const list = document.getElementById("contactList");
+        list.innerHTML = "";
+
+        contacts.forEach((c) => {
+          const li = document.createElement("li");
+          li.textContent = formatContact(c);
+          list.appendChild(li);
+        });
+      }
     </script>
   </body>
 </html>
