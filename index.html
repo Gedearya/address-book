@@ -14,7 +14,7 @@
       <input id="email" placeholder="Email" />
       <input id="address" placeholder="Address" />
 
-      <button>Add Contact</button>
+      <button onclick="addContact()">Add Contact</button>
 
       <ul id="contactList"></ul>
     </div>
@@ -32,6 +32,24 @@
           email: getValue("email"),
           address: getValue("address"),
         };
+      }
+
+      function formatContact(contact) {
+        return `👤 ${contact.name} | 📞 ${contact.phone} | 📧 ${contact.email} | 📍 ${contact.address}`;
+      }
+
+      function addContact() {
+        const contact = createContact();
+        contacts.push(contact);
+
+        console.clear();
+        console.log("CONTACT LIST:");
+        contacts.forEach((c, i) => {
+          console.log(`${i + 1}. ${formatContact(c)}`);
+        });
+
+        renderContacts();
+        clearForm();
       }
     </script>
   </body>
