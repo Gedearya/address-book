@@ -12,20 +12,45 @@ I Gede Arya Danny Pratama
 - 🔗 <https://contacts.igdarya.com>
 - 🔗 <https://contacts-igdarya.vercel.app/>
 
+## ▶️ How To Run
+
+Just open:
+index.html
+
+in your browser (no server required).
+
 ## 🚀 Features
+
+### 📇 Contact Management
 
 - Add new contact
 - Edit existing contact
 - Delete contact
-- Search contact
-- Input validation
-- Duplicate contact detection
+- View contact detail (slide panel)
+- Avatar image URL or auto-generated initials
+
+### ⭐ Favorites
+
+- Mark / unmark contact as favorite
+- Favorite list in sidebar
+- Favorite filtering
+- Favorite preserved in LocalStorage
+
+### 🏷 Labels (Groups)
+
+- Create label
+- Edit label (rename)
+- Delete label
+- Assign label to contact
+- Filter contacts by label
+- Label options available in contact form
+
+### 🔍 Utilities
+
+- Search contact by name
+- Sort contacts A–Z / Z–A
+- Random color avatar background
 - Persistent storage using LocalStorage
-
-### Optional / Future Features
-
-- Favorite (Star) contact
-- Labels / Groups
 
 ## 🧠 System Overview
 
@@ -35,7 +60,10 @@ The application uses a Single Page Application (SPA) approach:
 - Check LocalStorage
 - Initialize or load contacts
 - Render contact list
+- Render favorite list
+- Render label list
 - User performs actions
+- All states support sorting and searching.
 - Save data to LocalStorage
 - Update UI
 
@@ -122,6 +150,12 @@ Keyword Entered?
     "address": "Jakarta, Indonesia"
   }
 ]
+```
+
+**Key:** `labels`
+
+```json
+["Kerja", "Sekolah", "Teman"]
 ```
 
 ## ✅ Validation Rules
