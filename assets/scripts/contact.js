@@ -83,6 +83,43 @@ function searchContacts(keyword) {
   log(`Search Result: "${keyword}"`, result);
 }
 
+function editContact(id, updatedData) {
+  const contacts = loadContacts();
+  const index = contacts.findIndex((c) => c.id === id);
+
+  if (index === -1) {
+    console.warn("Contact not found!");
+    return;
+  }
+
+  const updatedContact = { ...contacts[index], ...updatedData };
+
+  const validation = validateContact(updatedContact);
+  if (!validation.valid) {
+    console.warn(validation.message);
+    return;
+  }
+
+  contacts[index] = updatedContact;
+  saveContacts(contacts);
+
+  console.log("Contact updated:");
+  console.table([updatedContact]);
+}
+
+function deleteContact(id) {
+  const contacts = loadContacts();
+  const filtered = contacts.filter((c) => c.id !== id);
+
+  if (contacts.length === filtered.length) {
+    console.warn("Contact not found!");
+    return;
+  }
+
+  saveContacts(filtered);
+  console.log(`Contact with id ${id} deleted!`);
+}
+
 clearAllContacts();
 
 addContact({
@@ -137,3 +174,12 @@ addContact({
 log("All Contacts", loadContacts());
 
 searchContacts("gede");
+
+editContact(1, {
+  phone: "+62-899-000-111",
+  address: "Denpasar, Indonesia",
+});
+
+deleteContact(5);
+
+log("Final Contacts", loadContacts());
