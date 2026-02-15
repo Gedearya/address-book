@@ -75,6 +75,7 @@ function clearAllContacts() {
   console.log("All contacts cleared!");
 }
 
+// TODO: make search to include email and phone number as well
 function searchContacts(keyword) {
   const result = loadContacts().filter((c) =>
     c.name.toLowerCase().includes(keyword.toLowerCase()),
