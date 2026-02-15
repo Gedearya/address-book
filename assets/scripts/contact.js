@@ -120,6 +120,10 @@ function deleteContact(id) {
   console.log(`Contact with id ${id} deleted!`);
 }
 
+function formatContact(contact) {
+  return `👤 ${contact.name} | 📞 ${contact.phone} | 📧 ${contact.email} | 📍 ${contact.address}`;
+}
+
 clearAllContacts();
 
 addContact({
@@ -183,3 +187,8 @@ editContact(1, {
 deleteContact(5);
 
 log("Final Contacts", loadContacts());
+
+console.log("\n=== Final Contacts (Formatted) ===");
+loadContacts().forEach((contact, index) => {
+  console.log(`${index + 1}. ${formatContact(contact)}`);
+});
