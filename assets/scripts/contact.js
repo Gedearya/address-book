@@ -163,14 +163,14 @@ addContact({
 });
 
 addContact({
-  name: "Mas Haidar",
+  name: "Haidar",
   phone: "+62-851-234-600",
   email: "haidar@gmail.com",
   address: "BSD, Indonesia",
 });
 
 addContact({
-  name: "Mas Ben",
+  name: "Ben",
   phone: "+62-851-581-931",
   email: "ben@gmail.com",
   address: "Kediri, Indonesia",
