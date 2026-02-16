@@ -1,10 +1,9 @@
 const STORAGE_KEY = "contacts";
-
-let currentId = 0;
+const regexPhoneValidation = /^[0-9,+\-]+$/;
+const regexEmailValidation = /^\S+@\S+\.\S+$/;
 
 function generateId() {
-  currentId += 1;
-  return currentId;
+  return Date.now() + Math.floor(Math.random() * 1000);
 }
 
 function log(title, data) {
@@ -22,19 +21,34 @@ function saveContacts(data) {
 }
 
 function validateContact(contact) {
-  if (!contact.name || !contact.phone || !contact.email || !contact.address) {
-    return { valid: false, message: "All fields are required" };
+  if (!contact.name) {
+    return { valid: false, message: "Name is required" };
   }
 
-  if (!/^[0-9,+\-]+$/.test(contact.phone)) {
+  if (!contact.phone) {
+    return { valid: false, message: "Phone number is required" };
+  }
+
+  if (!contact.email) {
+    return { valid: false, message: "Email is required" };
+  }
+
+  if (!contact.address) {
+    return { valid: false, message: "Address is required" };
+  }
+
+  if (!regexPhoneValidation.test(contact.phone)) {
     return {
       valid: false,
       message: "Phone must contain only numbers, hyphens, and plus signs",
     };
   }
 
-  if (!/^\S+@\S+\.\S+$/.test(contact.email)) {
-    return { valid: false, message: "Invalid email format" };
+  if (!regexEmailValidation.test(contact.email)) {
+    return {
+      valid: false,
+      message: "Invalid email format",
+    };
   }
 
   return { valid: true };
@@ -48,9 +62,19 @@ function isDuplicate(contact, contacts) {
   );
 }
 
+function normalizeContact(contact) {
+  return {
+    name: contact.name.trim(),
+    phone: contact.phone.trim(),
+    email: contact.email.trim().toLowerCase(),
+    address: contact.address.trim(),
+  };
+}
+
 function addContact(contact) {
   const contacts = loadContacts();
-  const validation = validateContact(contact);
+  const normalized = normalizeContact(contact);
+  const validation = validateContact(normalized);
 
   if (!validation.valid) {
     console.warn(validation.message);
@@ -62,7 +86,12 @@ function addContact(contact) {
     return;
   }
 
-  const newContact = { id: generateId(), ...contact };
+  const newContact = {
+    id: generateId(),
+    ...normalized,
+    createdAt: new Date().toISOString(),
+  };
+
   contacts.push(newContact);
   saveContacts(contacts);
 
@@ -77,8 +106,12 @@ function clearAllContacts() {
 
 // TODO: make search to include email and phone number as well
 function searchContacts(keyword) {
+  const key = keyword.toLowerCase();
+
   const result = loadContacts().filter((c) =>
-    c.name.toLowerCase().includes(keyword.toLowerCase()),
+    [c.name, c.phone, c.email, c.address].some((field) =>
+      field.toLowerCase().includes(key),
+    ),
   );
 
   log(`Search Result: "${keyword}"`, result);
@@ -93,7 +126,10 @@ function editContact(id, updatedData) {
     return;
   }
 
-  const updatedContact = { ...contacts[index], ...updatedData };
+  const updatedContact = normalizeContact({
+    ...contacts[index],
+    ...updatedData,
+  });
 
   const validation = validateContact(updatedContact);
   if (!validation.valid) {
@@ -101,7 +137,12 @@ function editContact(id, updatedData) {
     return;
   }
 
-  contacts[index] = updatedContact;
+  contacts[index] = {
+    ...contacts[index],
+    ...updatedContact,
+    updatedAt: new Date().toISOString(),
+  };
+
   saveContacts(contacts);
 
   console.log("Contact updated:");
@@ -122,11 +163,34 @@ function deleteContact(id) {
 }
 
 function formatContact(contact) {
-  return `👤 ${contact.name} | 📞 ${contact.phone} | 📧 ${contact.email} | 📍 ${contact.address}`;
+  return `
+👤 ${contact.name}
+📞 ${contact.phone}
+📧 ${contact.email}
+📍 ${contact.address}
+-----------------------
+`;
+}
+
+function countContacts() {
+  return loadContacts().length;
+}
+
+function emailStats() {
+  return loadContacts().reduce((acc, c) => {
+    const domain = c.email.split("@")[1];
+    acc[domain] = (acc[domain] || 0) + 1;
+    return acc;
+  }, {});
+}
+
+function getSortedContacts() {
+  return loadContacts().sort((a, b) => a.name.localeCompare(b.name));
 }
 
 clearAllContacts();
 
+// Success
 addContact({
   name: "Gede Arya",
   phone: "+62-891-234-889",
@@ -134,6 +198,7 @@ addContact({
   address: "Jakarta, Indonesia",
 });
 
+// Failed, empty name
 addContact({
   name: "",
   phone: "+62-891-234-889",
@@ -141,6 +206,31 @@ addContact({
   address: "Jakarta, Indonesia",
 });
 
+// Failed, empty phone
+addContact({
+  name: "Gede Arya",
+  phone: "",
+  email: "gedearya@gmail.com",
+  address: "Jakarta, Indonesia",
+});
+
+// Failed, empty email
+addContact({
+  name: "Gede Arya",
+  phone: "+62-891-234-889",
+  email: "",
+  address: "Jakarta, Indonesia",
+});
+
+// Failed, empty address
+addContact({
+  name: "Gede Arya",
+  phone: "+62-891-234-889",
+  email: "gedearya@gmail.com",
+  address: "",
+});
+
+// Failed, invalid format phone
 addContact({
   name: "Gede Arya",
   phone: "testnomor",
@@ -148,6 +238,7 @@ addContact({
   address: "Jakarta, Indonesia",
 });
 
+// Failed, invalid format email
 addContact({
   name: "Gede Arya",
   phone: "+62-891-234-889",
@@ -155,6 +246,7 @@ addContact({
   address: "Jakarta, Indonesia",
 });
 
+// Failed, duplicate contact
 addContact({
   name: "Gede Arya",
   phone: "+62-891-234-889",
@@ -162,6 +254,7 @@ addContact({
   address: "Jakarta, Indonesia",
 });
 
+// Success
 addContact({
   name: "Haidar",
   phone: "+62-851-234-600",
@@ -169,6 +262,7 @@ addContact({
   address: "BSD, Indonesia",
 });
 
+// Success
 addContact({
   name: "Ben",
   phone: "+62-851-581-931",
@@ -178,14 +272,20 @@ addContact({
 
 log("All Contacts", loadContacts());
 
+searchContacts("gedexxx");
 searchContacts("gede");
+searchContacts("gmail");
+searchContacts("+62-851-581-931");
+searchContacts("BSD");
 
-editContact(1, {
+editContact(loadContacts()[0].id, {
   phone: "+62-899-000-111",
   address: "Denpasar, Indonesia",
 });
 
-deleteContact(5);
+deleteContact(loadContacts()[2].id);
+
+log("Sorted Contacts", getSortedContacts());
 
 log("Final Contacts", loadContacts());
 
