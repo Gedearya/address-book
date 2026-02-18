@@ -167,6 +167,7 @@ function editContactById(id, updatedData) {
     return { success: false, message: validation.message };
   }
 
+  // TODO: maybe move check duplicate earlier, do cheap operation first. need to find out or just decide which one is cheapest
   if (isDuplicate(updatedContact, contacts, id)) {
     console.warn(VALIDATION_MESSAGES.duplicate);
     return { success: false, message: VALIDATION_MESSAGES.duplicate };
@@ -244,6 +245,7 @@ function displayAllContacts() {
   });
 }
 
+// TODO: move tests to other file
 // ================= TEST DATA =================
 function runTests() {
   console.log("\n🧪 Starting Contact Management Tests...\n");
