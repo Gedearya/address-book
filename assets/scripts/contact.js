@@ -23,7 +23,7 @@ const SEARCHABLE_FIELDS = ["name", "phone", "email", "address"];
 function generateId() {
   const contacts = loadContacts();
   if (contacts.length === 0) return 1;
-  
+
   const maxId = Math.max(...contacts.map((c) => c.id));
   return maxId + 1;
 }
@@ -55,13 +55,13 @@ function saveContacts(data) {
 // ================= VALIDATION =================
 function validateRequiredFields(contact) {
   const requiredFields = ["name", "phone", "email", "address"];
-  
+
   for (const field of requiredFields) {
     if (!contact[field]) {
       return { valid: false, message: VALIDATION_MESSAGES[field] };
     }
   }
-  
+
   return { valid: true };
 }
 
@@ -92,7 +92,7 @@ function isDuplicate(contact, contacts, excludeId = null) {
     (c) =>
       c.id !== excludeId &&
       (c.phone === contact.phone ||
-        c.email.toLowerCase() === contact.email.toLowerCase())
+        c.email.toLowerCase() === contact.email.toLowerCase()),
   );
 }
 
@@ -132,7 +132,7 @@ function addContact(contact) {
 
   console.log("Contact added:");
   console.table([newContact]);
-  
+
   return { success: true, data: newContact };
 }
 
@@ -140,9 +140,7 @@ function searchContacts(keyword) {
   const key = keyword.toLowerCase();
 
   const result = loadContacts().filter((c) =>
-    SEARCHABLE_FIELDS.some((field) =>
-      c[field].toLowerCase().includes(key)
-    )
+    SEARCHABLE_FIELDS.some((field) => c[field].toLowerCase().includes(key)),
   );
 
   log(`Search Result: "${keyword}"`, result);
@@ -184,7 +182,7 @@ function editContact(id, updatedData) {
 
   console.log("Contact updated:");
   console.table([contacts[index]]);
-  
+
   return { success: true, data: contacts[index] };
 }
 
@@ -199,7 +197,7 @@ function deleteContact(id) {
 
   saveContacts(filtered);
   console.log(`Contact with id ${id} deleted!`);
-  
+
   return { success: true };
 }
 
@@ -225,7 +223,7 @@ function countContacts() {
 
 function getSortedContacts(sortBy = "name", order = "asc") {
   const contacts = loadContacts();
-  
+
   return contacts.sort((a, b) => {
     const comparison = a[sortBy].localeCompare(b[sortBy]);
     return order === "asc" ? comparison : -comparison;
