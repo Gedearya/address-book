@@ -217,10 +217,6 @@ function getContactById(id) {
   return loadContacts().find((c) => c.id === id);
 }
 
-function countContacts() {
-  return loadContacts().length;
-}
-
 function getSortedContacts(sortBy = "name", order = "asc") {
   const contacts = loadContacts();
 
@@ -228,14 +224,6 @@ function getSortedContacts(sortBy = "name", order = "asc") {
     const comparison = a[sortBy].localeCompare(b[sortBy]);
     return order === "asc" ? comparison : -comparison;
   });
-}
-
-function getEmailStats() {
-  return loadContacts().reduce((acc, contact) => {
-    const domain = contact.email.split("@")[1];
-    acc[domain] = (acc[domain] || 0) + 1;
-    return acc;
-  }, {});
 }
 
 // ================= FORMATTING =================
