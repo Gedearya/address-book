@@ -147,7 +147,7 @@ function searchContacts(keyword) {
   return result;
 }
 
-function editContact(id, updatedData) {
+function editContactById(id, updatedData) {
   const contacts = loadContacts();
   const index = contacts.findIndex((c) => c.id === id);
 
@@ -186,7 +186,7 @@ function editContact(id, updatedData) {
   return { success: true, data: contacts[index] };
 }
 
-function deleteContact(id) {
+function deleteContactById(id) {
   const contacts = loadContacts();
   const filtered = contacts.filter((c) => c.id !== id);
 
@@ -374,7 +374,7 @@ function runTests() {
   console.log("\n✏️ Edit Test:");
   const firstContact = loadContacts()[0];
   if (firstContact) {
-    editContact(firstContact.id, {
+    editContactById(firstContact.id, {
       phone: "+62-899-000-111",
       address: "Denpasar, Indonesia",
     });
@@ -384,7 +384,7 @@ function runTests() {
   console.log("\n🗑️ Delete Test:");
   const thirdContact = loadContacts()[2];
   if (thirdContact) {
-    deleteContact(thirdContact.id);
+    deleteContactById(thirdContact.id);
   }
 
   // Display results
