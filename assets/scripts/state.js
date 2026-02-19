@@ -1,4 +1,77 @@
-// ================= CRUD OPERATIONS =================
+// ================= STATE & BUSINESS LOGIC =================
+const VALIDATION_RULES = {
+  phone: /^[0-9,+\-]+$/,
+  email: /^\S+@\S+\.\S+$/,
+};
+
+const VALIDATION_MESSAGES = {
+  name: "Name is required",
+  phone: "Phone number is required",
+  email: "Email is required",
+  address: "Address is required",
+  phoneFormat: "Phone must contain only numbers, hyphens, and plus signs",
+  emailFormat: "Invalid email format",
+  duplicate: "Contact already exists!",
+  notFound: "Contact not found!",
+};
+
+const SEARCHABLE_FIELDS = ["name", "phone", "email", "address"];
+
+function generateId() {
+  const contacts = loadContacts();
+  if (contacts.length === 0) return 1;
+  const maxId = Math.max(...contacts.map((c) => c.id));
+  return maxId + 1;
+}
+
+function normalizeContact(contact) {
+  return {
+    name: contact.name.trim(),
+    phone: contact.phone.trim(),
+    email: contact.email.trim().toLowerCase(),
+    address: contact.address.trim(),
+  };
+}
+
+function validateRequiredFields(contact) {
+  const requiredFields = ["name", "phone", "email", "address"];
+  for (const field of requiredFields) {
+    if (!contact[field]) {
+      return { valid: false, message: VALIDATION_MESSAGES[field] };
+    }
+  }
+  return { valid: true };
+}
+
+function validateFormat(contact) {
+  if (!VALIDATION_RULES.phone.test(contact.phone)) {
+    return { valid: false, message: VALIDATION_MESSAGES.phoneFormat };
+  }
+  if (!VALIDATION_RULES.email.test(contact.email)) {
+    return { valid: false, message: VALIDATION_MESSAGES.emailFormat };
+  }
+  return { valid: true };
+}
+
+function validateContact(contact) {
+  const requiredValidation = validateRequiredFields(contact);
+  if (!requiredValidation.valid) return requiredValidation;
+
+  const formatValidation = validateFormat(contact);
+  if (!formatValidation.valid) return formatValidation;
+
+  return { valid: true };
+}
+
+function isDuplicate(contact, contacts, excludeId = null) {
+  return contacts.some(
+    (c) =>
+      c.id !== excludeId &&
+      (c.phone === contact.phone ||
+        c.email.toLowerCase() === contact.email.toLowerCase()),
+  );
+}
+
 function addContact(contact) {
   const contacts = loadContacts();
   const normalized = normalizeContact(contact);
@@ -31,12 +104,9 @@ function addContact(contact) {
 
 function searchContacts(keyword) {
   const key = keyword.toLowerCase();
-
   const result = loadContacts().filter((c) =>
     SEARCHABLE_FIELDS.some((field) => c[field].toLowerCase().includes(key)),
   );
-
-  log(`Search Result: "${keyword}"`, result);
   return result;
 }
 
@@ -100,7 +170,6 @@ function getContactById(id) {
 
 function getSortedContacts(sortBy = "name", order = "asc") {
   const contacts = loadContacts();
-
   return contacts.sort((a, b) => {
     const comparison = a[sortBy].localeCompare(b[sortBy]);
     return order === "asc" ? comparison : -comparison;

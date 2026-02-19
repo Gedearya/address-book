@@ -1,4 +1,6 @@
 // ================= STORAGE =================
+const STORAGE_KEY = "contacts";
+
 function loadContacts() {
   try {
     const data = localStorage.getItem(STORAGE_KEY);

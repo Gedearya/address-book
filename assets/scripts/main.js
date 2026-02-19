@@ -1,4 +1,4 @@
-// ================= TEST DATA =================
+// ================= MAIN & TESTS =================
 function runTests() {
   console.log("\n🧪 Starting Contact Management Tests...\n");
 
