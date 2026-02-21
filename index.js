@@ -99,17 +99,14 @@ async function deleteContact(id) {
 async function testCRUD() {
   console.log("\n🧪 Starting CRUD Tests with Fetch API...\n");
 
-  // 1. GET - Load all contacts
   console.log("1️⃣ GET All Contacts:");
   const allContacts = await getAllContacts();
   console.table(allContacts);
 
-  // 2. GET - Get single contact
   console.log("\n2️⃣ GET Single Contact (ID: 1):");
   const singleContact = await getContactById(1);
   console.table([singleContact]);
 
-  // 3. POST - Create new contact
   console.log("\n3️⃣ POST Create New Contact:");
   const newContact = await createContact({
     name: "Test User",
@@ -119,7 +116,6 @@ async function testCRUD() {
   });
   console.table([newContact]);
 
-  // 4. PUT - Update contact
   if (newContact && newContact.id) {
     console.log(`\n4️⃣ PUT Update Contact (ID: ${newContact.id}):`);
     const updatedContact = await updateContact(newContact.id, {
@@ -130,12 +126,10 @@ async function testCRUD() {
     });
     console.table([updatedContact]);
 
-    // 5. DELETE - Delete contact
     console.log(`\n5️⃣ DELETE Contact (ID: ${newContact.id}):`);
     await deleteContact(newContact.id);
   }
 
-  // 6. GET - Verify final state
   console.log("\n6️⃣ GET All Contacts (Final State):");
   const finalContacts = await getAllContacts();
   console.table(finalContacts);
@@ -143,5 +137,4 @@ async function testCRUD() {
   console.log("\n✅ CRUD Tests Completed!");
 }
 
-// Run tests
 testCRUD();
