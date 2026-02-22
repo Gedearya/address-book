@@ -1,142 +1,231 @@
-# 📒 Gede Contacts – LocalStorage Web App
+# 📒 Gede Contacts – Modern Contact Management App
 
-A simple web-based contact management application inspired by Google Contacts, built using HTML, CSS, and JavaScript, with data stored in LocalStorage.
-This project demonstrates CRUD operations, validation, and client-side data management.
+A modern, feature-rich contact management application inspired by Google Contacts. Built with vanilla JavaScript and modular architecture, featuring advanced validation, trash management, and real-time search capabilities. All data is stored locally using browser LocalStorage.
 
 ## 🧑‍💻 Author
 
 I Gede Arya Danny Pratama
 
-## Live Website
+## 🌐 Live Website
 
 - 🔗 <https://contacts.igdarya.com>
 - 🔗 <https://contacts-igdarya.vercel.app/>
 
 ## ▶️ How To Run
 
-Just open:
-index.html
+Simply open `index.html` in your browser – no server or installation required!
 
-in your browser (no server required).
+```bash
+# Clone the repository
+git clone <repository-url>
 
-## 🚀 Features
-
-### 📇 Contact Management
-
-- Add new contact
-- Edit existing contact
-- Delete contact
-- View contact detail (slide panel)
-- Avatar image URL or auto-generated initials
-
-### ⭐ Favorites
-
-- Mark / unmark contact as favorite
-- Favorite list in sidebar
-- Favorite filtering
-- Favorite preserved in LocalStorage
-
-### 🏷 Labels (Groups)
-
-- Create label
-- Edit label (rename)
-- Delete label
-- Assign label to contact
-- Filter contacts by label
-- Label options available in contact form
-
-### 🔍 Utilities
-
-- Search contact by name
-- Sort contacts A–Z / Z–A
-- Random color avatar background
-- Persistent storage using LocalStorage
-
-## 🧠 System Overview
-
-The application uses a Single Page Application (SPA) approach:
-
-- Load application (HTML, CSS, JS)
-- Check LocalStorage
-- Initialize or load contacts
-- Render contact list
-- Render favorite list
-- Render label list
-- User performs actions
-- All states support sorting and searching.
-- Save data to LocalStorage
-- Update UI
-
-## 🔁 Flowchart Summary
-
-![Address Book draw.io](/assets/images/address-book-drawio.jpg)
-
-### Main Flow
-
-```text
-Start
-│
-├─ Load App
-│
-├─ LocalStorage Exists?
-│ ├─ NO → Create Empty Contacts
-│ │ → Save
-│ │ → Load Contacts
-│ └─ YES → Load Contacts
-│
-├─ Render Contact List
-│
-└─ User Action
+# Open in browser
+open index.html
 ```
 
-### Add / Edit Contact
+## ✨ Features
+
+### 📇 Contact Management (CRUD)
+
+- ➕ **Add Contact** – Create new contacts with comprehensive validation
+- ✏️ **Edit Contact** – Update existing contact information
+- 🗑️ **Soft Delete** – Move contacts to trash (30-day retention)
+- 👁️ **View Details** – Slide-in panel with full contact information
+- 🖼️ **Smart Avatars** – Custom image URL or auto-generated colorful initials
+- 📞 **Phone Formatting** – International format display using libphonenumber-js
+
+### ⭐ Favorites System
+
+- ⭐ Mark/unmark contacts as favorites
+- 📋 Dedicated favorites view in sidebar
+- 💾 Persistent favorite status across sessions
+
+### 🏷️ Label Management
+
+- 🏷️ Create custom labels to organize contacts
+- ✏️ Edit label names (updates all associated contacts)
+- 🗑️ Delete labels (clears label from all contacts)
+- 🎯 Filter contacts by label
+- 📝 Assign labels via contact form dropdown
+
+### �️ Trash Management
+
+- 🗑️ Soft delete with 30-day retention period
+- ♻️ Restore deleted contacts
+- 🔥 Permanent delete option
+- 🧹 Empty trash (bulk delete)
+- ⏰ Auto-cleanup of expired trash items
+- ⚠️ Trash banner with retention reminder
+
+### 🔍 Search & Sort
+
+- 🔎 **Real-time Search** – Search by name or email
+- 🔤 **Smart Sorting** – Toggle between A-Z and Z-A
+- ⚡ **Instant Results** – No page reload required
+
+### ✅ Advanced Validation
+
+- 📝 **Real-time Validation** – Errors shown on blur
+- 🔴 **Visual Feedback** – Red borders and error messages
+- 🚫 **Duplicate Detection** – Prevents duplicate phone numbers (all formats)
+- 📱 **Phone Normalization** – Detects 08xxx, 628xxx, +628xxx as same number
+
+### 🎨 UI/UX Features
+
+- 📱 Responsive sidebar with toggle
+- 🎨 Color-coded avatars based on name hash
+- 🔔 Confirmation modals for destructive actions
+- 🎯 Active menu highlighting
+- 📊 Contact counter badge
+- 🌈 Modern Tailwind CSS styling
+
+## 🏗️ Project Structure
 
 ```text
-Add / Edit Contact
-↓
-Show Form
-↓
-Input Valid?
-├─ NO → Back to Form
-└─ YES → Duplicate Contact?
-   ├─ YES → Back to Form
-   └─ NO → Save to LocalStorage
-     ↓
-   Render Contact List
+gede-contacts/
+├── index.html              # Main HTML file
+├── assets/
+│   ├── scripts/
+│   │   ├── storage.js      # LocalStorage operations
+│   │   ├── state.js        # Business logic & validation
+│   │   ├── ui.js           # DOM manipulation & rendering
+│   │   └── main.js         # Event handlers & initialization
+│   └── images/
+│       └── address-book-drawio.jpg
+├── index.js                # API CRUD operations (MockAPI)
+├── index.test.js           # Jest unit tests
+├── test-data.js            # Test data from MockAPI
+├── README.md               # This file
+└── README-TESTING.md       # Testing documentation
 ```
 
-### Delete Contact
+### 📦 Modular Architecture
+
+**storage.js** – Data persistence layer
+
+- `loadContacts()` / `saveContacts()`
+- `loadLabels()` / `saveLabels()`
+- `clearAllContacts()`
+
+**state.js** – Business logic & state management
+
+- Contact CRUD operations
+- Label management
+- Validation rules & duplicate checking
+- Filter & sort logic
+- Trash management with auto-cleanup
+
+**ui.js** – Presentation layer
+
+- DOM caching and manipulation
+- Rendering functions (contacts, labels, avatars)
+- Modal utilities
+- Empty state handling
+- Error message display
+
+**main.js** – Application initialization
+
+- Event listener setup
+- Real-time validation binding
+- App initialization
+
+## 🧠 System Flow
+
+### Application Lifecycle
 
 ```text
-Delete Contact
-↓
-Confirm Delete?
-├─ NO → Back to List
-└─ YES → Delete from LocalStorage
-   ↓
-  Render Contact List
+┌─────────────────────────────────────────┐
+│         Load Application                │
+│  (HTML + CSS + JS + libphonenumber)     │
+└──────────────┬──────────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────────┐
+│      Check LocalStorage                 │
+│  contacts: [] | labels: []              │
+└──────────────┬──────────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────────┐
+│      Initialize Application             │
+│  • Cleanup expired trash (>30 days)     │
+│  • Bind event listeners                 │
+│  • Render UI (contacts, labels, counts) │
+└──────────────┬──────────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────────┐
+│         User Interactions               │
+│  • Add/Edit/Delete contacts             │
+│  • Search & Sort                        │
+│  • Manage labels                        │
+│  • Toggle favorites                     │
+└─────────────────────────────────────────┘
 ```
 
-### Search Contact
+### Add/Edit Contact Flow
 
 ```text
-Search Contact
-↓
-Keyword Entered?
-├─ NO → Show All Contacts
-└─ YES → Apply Filter
-   ↓
-  Render Contact List
+User clicks "Add Contact" or "Edit"
+           ↓
+    Show Form Modal
+           ↓
+    User fills inputs
+           ↓
+    Real-time validation on blur
+    ├─ Invalid → Show red error message
+    └─ Valid → Clear error
+           ↓
+    User clicks "Save"
+           ↓
+    Validate all fields
+    ├─ Invalid → Show errors, prevent save
+    └─ Valid → Continue
+           ↓
+    Check duplicate phone
+    ├─ Duplicate → Show error with existing contact name
+    └─ Unique → Continue
+           ↓
+    Save to LocalStorage
+           ↓
+    Close modal & refresh UI
 ```
 
-## 🧩 Technologies Used
+### Delete Contact Flow
 
-- HTML5
-- CSS3
-- Vanilla JavaScript
-- Browser LocalStorage
+```text
+User clicks "Delete" on contact
+           ↓
+    Show confirmation modal
+    "Contact will be deleted after 30 days"
+           ↓
+    User confirms
+           ↓
+    Add deletedAt timestamp
+           ↓
+    Save to LocalStorage
+           ↓
+    Contact moves to Trash view
+           ↓
+    (After 30 days: auto-cleanup on app load)
+```
+
+## 🔁 Flowchart
+
+![Address Book Flowchart](/assets/images/address-book-drawio.jpg)
+
+## 🧩 Technologies & Libraries
+
+- **HTML5** – Semantic markup
+- **Tailwind CSS** – Utility-first styling (CDN)
+- **Vanilla JavaScript** – No frameworks, pure ES6+
+- **libphonenumber-js** – International phone number formatting
+- **LocalStorage API** – Client-side data persistence
+- **Jest** – Unit testing framework
 
 ## 💾 LocalStorage Data Format
+
+### Contacts Data
 
 **Key:** `contacts`
 
@@ -144,23 +233,138 @@ Keyword Entered?
 [
   {
     "id": 1,
-    "name": "Gede Arya",
-    "phone": "+6285-891-840-666",
-    "email": "gedearya@gmail.com",
-    "address": "Jakarta, Indonesia"
+    "name": "Lazuardy Anugrah",
+    "phone": "6285891840888",
+    "email": "lazu@gmail.com",
+    "address": "Tangerang, Indonesia",
+    "avatar": "",
+    "label": "Bootcamp",
+    "favorite": false,
+    "deletedAt": null
+  },
+  {
+    "id": 2,
+    "name": "I Gede Arya",
+    "phone": "6285891840619",
+    "email": "arya@gmail.com",
+    "address": "Jakarta, Indonesia",
+    "avatar": "https://example.com/avatar.jpg",
+    "label": "",
+    "favorite": true,
+    "deletedAt": null
+  },
+  {
+    "id": 3,
+    "name": "Ben Nata",
+    "phone": "6285892654123",
+    "email": "ben@gmail.com",
+    "address": "Kediri, Indonesia",
+    "avatar": "",
+    "label": "Mentor",
+    "favorite": false,
+    "deletedAt": 1708876800000
   }
 ]
 ```
 
+### Labels Data
+
 **Key:** `labels`
 
 ```json
-["Kerja", "Sekolah", "Teman"]
+["Bootcamp", "Mentor", "President"]
 ```
 
 ## ✅ Validation Rules
 
-- Name cannot be empty
-- Phone must contain only numbers
-- Email must be valid format
-- Contact cannot duplicated
+### Name Validation
+
+- ✔️ **Required field**
+- ✔️ Minimum 2 characters
+- ✔️ Maximum 50 characters
+- ✔️ Only letters and spaces allowed
+- ❌ Error: "Name is required", "Name must be at least 2 characters", etc.
+
+### Phone Validation
+
+- ✔️ **Required field**
+- ✔️ Indonesian format: `08xxx`, `628xxx`, or `+628xxx`
+- ✔️ 9-12 digits after country code
+- ✔️ **Duplicate detection** across all formats
+- ❌ Error: "Phone number is required", "Invalid phone format"
+- ❌ Error: "Phone number already exists for contact 'John Doe'"
+
+**Duplicate Detection Examples:**
+
+```text
+08123456789  ≈  +628123456789  ≈  628123456789  → DUPLICATE ❌
+0812-345-6789  ≈  +62 812 345 6789  → DUPLICATE ❌
+```
+
+### Email Validation
+
+- ⚪ Optional field
+- ✔️ Must be valid email format if provided
+- ❌ Error: "Invalid email format"
+
+### Address Validation
+
+- ⚪ Optional field
+- ✔️ Maximum 200 characters
+- ❌ Error: "Address must not exceed 200 characters"
+
+## 🧪 Testing
+
+The project includes comprehensive Jest unit tests for API operations.
+
+```bash
+# Install dependencies
+npm install
+
+# Run tests
+npm test
+
+# Run tests with coverage
+npm run test:coverage
+```
+
+**Test Coverage:**
+
+- ✅ GET all contacts
+- ✅ GET single contact by ID
+- ✅ POST create new contact
+- ✅ PUT update contact
+- ✅ DELETE contact
+- ✅ Error handling & network failures
+
+See [README-TESTING.md](README-TESTING.md) for detailed testing documentation.
+
+## 🎯 Key Features Highlights
+
+### 🔒 Data Integrity
+
+- Duplicate phone detection with format normalization
+- Comprehensive field validation
+- Soft delete with recovery option
+
+### 🎨 User Experience
+
+- Real-time search and filtering
+- Instant validation feedback
+- Confirmation dialogs for destructive actions
+- Smooth animations and transitions
+
+### 🏗️ Code Quality
+
+- Modular architecture (separation of concerns)
+- Clean, maintainable code
+- Comprehensive error handling
+- Unit tested API layer
+
+## 📝 License
+
+This project is open source and available for educational purposes.
+
+---
+
+Made with ❤️ by I Gede Arya Danny Pratama
