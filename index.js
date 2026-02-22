@@ -1,5 +1,9 @@
+// ================= API CONFIGURATION =================
 const API_URL = "https://6995d3a3b081bc23e9c492b5.mockapi.io/api/contacts";
 
+// ================= CRUD OPERATIONS WITH FETCH =================
+
+// GET - Load all contacts
 async function getAllContacts() {
   try {
     const response = await fetch(API_URL);
@@ -15,6 +19,7 @@ async function getAllContacts() {
   }
 }
 
+// GET - Get single contact by ID
 async function getContactById(id) {
   try {
     const response = await fetch(`${API_URL}/${id}`);
@@ -30,6 +35,7 @@ async function getContactById(id) {
   }
 }
 
+// POST - Create new contact
 async function createContact(contactData) {
   try {
     const response = await fetch(API_URL, {
@@ -53,6 +59,7 @@ async function createContact(contactData) {
   }
 }
 
+// PUT - Update contact
 async function updateContact(id, updatedData) {
   try {
     const response = await fetch(`${API_URL}/${id}`, {
@@ -76,6 +83,7 @@ async function updateContact(id, updatedData) {
   }
 }
 
+// DELETE - Delete contact
 async function deleteContact(id) {
   try {
     const response = await fetch(`${API_URL}/${id}`, {
@@ -137,4 +145,17 @@ async function testCRUD() {
   console.log("\n✅ CRUD Tests Completed!");
 }
 
-testCRUD();
+// Export for testing
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
+    getAllContacts,
+    getContactById,
+    createContact,
+    updateContact,
+    deleteContact,
+    testCRUD,
+  };
+} else {
+  // Run tests in browser
+  testCRUD();
+}
