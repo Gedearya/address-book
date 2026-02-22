@@ -1,54 +1,54 @@
-# Unit Testing untuk Contact API dengan Jest
+# Unit Testing for Contact API with Jest
 
-## Tentang Jest
+## About Jest
 
-Jest adalah JavaScript testing framework yang paling populer dan mudah digunakan. Dibuat oleh Facebook, Jest menyediakan semua yang dibutuhkan untuk testing dalam satu package.
+Jest is the most popular and easy-to-use JavaScript testing framework. Created by Facebook, Jest provides everything you need for testing in one package.
 
-**Kelebihan Jest:**
+**Jest Advantages:**
 
-- Zero config - langsung bisa digunakan
-- Built-in mocking untuk fetch API
-- Assertion library lengkap
-- Coverage report otomatis
-- Watch mode untuk development
+- Zero config - ready to use out of the box
+- Built-in mocking for fetch API
+- Complete assertion library
+- Automatic coverage reports
+- Watch mode for development
 - Fast and parallel test execution
 
-## Instalasi
+## Installation
 
 ```bash
 npm install
 ```
 
-Dependencies yang dibutuhkan:
+Required dependencies:
 
 - `jest` - Testing framework
 
-## Struktur File
+## File Structure
 
 ```text
 .
-├── index.js              # File utama dengan fungsi CRUD
-├── index.test.js         # File testing dengan 17 test cases
-├── test-data.js          # Mock data dari real API
-├── package.json          # Konfigurasi npm dan Jest
-└── README-TESTING.md     # Dokumentasi ini
+├── index.js              # Main file with CRUD functions
+├── index.test.js         # Test file with 17 test cases
+├── test-data.js          # Mock data from real API
+├── package.json          # npm and Jest configuration
+└── README-TESTING.md     # This documentation
 ```
 
-## Menjalankan Test
+## Running Tests
 
-### Run semua test
+### Run all tests
 
 ```bash
 npm test
 ```
 
-### Watch mode (auto-rerun saat ada perubahan)
+### Watch mode (auto-rerun on file changes)
 
 ```bash
 npm run test:watch
 ```
 
-### Dengan coverage report
+### With coverage report
 
 ```bash
 npm run test:coverage
@@ -56,11 +56,11 @@ npm run test:coverage
 
 ## Test Coverage
 
-File `index.test.js` mencakup 17 test cases:
+The `index.test.js` file includes 17 test cases:
 
 ### 1. GET Operations (4 tests)
 
-- ✅ getAllContacts - success case dengan 7 contacts
+- ✅ getAllContacts - success case with 7 contacts
 - ✅ getAllContacts - error handling
 - ✅ getContactById - success case (Lazuardy Anugrah)
 - ✅ getContactById - 404 not found
@@ -86,11 +86,11 @@ File `index.test.js` mencakup 17 test cases:
 
 ### 6. Error Handling Edge Cases (5 tests)
 
-- ✅ Network error untuk getAllContacts
-- ✅ Network error untuk getContactById
-- ✅ Network error untuk createContact
-- ✅ Network error untuk updateContact
-- ✅ Network error untuk deleteContact
+- ✅ Network error for getAllContacts
+- ✅ Network error for getContactById
+- ✅ Network error for createContact
+- ✅ Network error for updateContact
+- ✅ Network error for deleteContact
 
 ### 7. testCRUD Function (1 test)
 
@@ -98,7 +98,7 @@ File `index.test.js` mencakup 17 test cases:
 
 ## Mock Data
 
-File `test-data.js` berisi data real dari API:
+The `test-data.js` file contains real data from the API:
 
 ```javascript
 const mockContacts = [
@@ -110,17 +110,17 @@ const mockContacts = [
     address: "Tangerang, Indonesia",
     createdAt: "2026-02-18T13:28:20.023Z",
   },
-  // ... 6 contacts lainnya
+  // ... 6 more contacts
 ];
 ```
 
-Data ini digunakan untuk:
+This data is used for:
 
-- Mock response dari API
-- Assertions yang lebih spesifik
-- Konsistensi test data
+- Mocking API responses
+- More specific assertions
+- Test data consistency
 
-## Contoh Output
+## Example Output
 
 ```text
 PASS  ./index.test.js
@@ -152,8 +152,8 @@ PASS  ./index.test.js
 ----------|---------|----------|---------|---------|-------------------
 File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
 ----------|---------|----------|---------|---------|-------------------
-All files |   90.47 |    88.88 |     100 |   90.47 |
- index.js |   90.47 |    88.88 |     100 |   90.47 | 108-145,159
+All files |   98.55 |    88.88 |     100 |   98.55 |
+ index.js |   98.55 |    88.88 |     100 |   98.55 | 160
 ----------|---------|----------|---------|---------|-------------------
 
 Test Suites: 1 passed, 1 total
@@ -162,9 +162,9 @@ Snapshots:   0 total
 Time:        1.234s
 ```
 
-## Konfigurasi Jest
+## Jest Configuration
 
-File `package.json` berisi konfigurasi Jest:
+The `package.json` file contains Jest configuration:
 
 ```json
 {
@@ -234,49 +234,49 @@ expect(result.email).toBe("lazu@gmail.com");
 expect(result).toHaveLength(7);
 ```
 
-## Tips Development
+## Development Tips
 
-### 1. Run test sebelum commit
+### 1. Run tests before committing
 
-Pastikan semua test pass sebelum commit code
+Ensure all tests pass before committing code
 
-### 2. Gunakan watch mode saat development
+### 2. Use watch mode during development
 
 ```bash
 npm run test:watch
 ```
 
-Test akan auto-rerun setiap kali ada perubahan file
+Tests will auto-rerun whenever files change
 
-### 3. Check coverage report
+### 3. Check coverage reports
 
 ```bash
 npm run test:coverage
 ```
 
-Target minimal: 80% coverage
+Minimum target: 80% coverage
 
-### 4. Update test saat ada perubahan API
+### 4. Update tests when API changes
 
-Jika API berubah, update `test-data.js` dan assertions di `index.test.js`
+If the API changes, update `test-data.js` and assertions in `index.test.js`
 
 ### 5. Isolate test cases
 
-Setiap test harus independent dan tidak bergantung pada test lain
+Each test should be independent and not depend on other tests
 
 ## Troubleshooting
 
-### Test gagal dengan error "fetch is not defined"
+### Tests fail with "fetch is not defined" error
 
-Pastikan `global.fetch = jest.fn()` ada di file test
+Make sure `global.fetch = jest.fn()` is present in the test file
 
-### Coverage 0%
+### Coverage shows 0%
 
-Pastikan fungsi di-export dari `index.js` dan di-import di `index.test.js`
+Ensure functions are exported from `index.js` and imported in `index.test.js`
 
 ### Test timeout
 
-Tambahkan timeout di test:
+Add timeout to the test:
 
 ```javascript
 test("slow test", async () => {
@@ -291,6 +291,6 @@ test("slow test", async () => {
 - [Jest Mock Functions](https://jestjs.io/docs/mock-functions)
 - [Testing Async Code](https://jestjs.io/docs/asynchronous)
 
-## Kesimpulan
+## Conclusion
 
-Testing dengan Jest memberikan confidence bahwa code berfungsi dengan benar. Dengan 17 test cases dan coverage 90%+, API CRUD sudah production-ready dan siap untuk deployment.
+Testing with Jest provides confidence that your code works correctly. With 17 test cases and 90%+ coverage, the CRUD API is production-ready and ready for deployment.
