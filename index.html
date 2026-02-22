@@ -270,7 +270,7 @@
                 <th class="text-left p-3">Name</th>
                 <th class="text-left p-3">Email</th>
                 <th class="text-left p-3">Phone</th>
-                <th class="text-left p-3">Address</th>
+                <th class="text-left p-3">Label</th>
               </tr>
             </thead>
             <tbody id="contactList"></tbody>
@@ -293,37 +293,47 @@
 
         <input type="hidden" id="contactId" />
 
-        <input
-          id="name"
-          placeholder="Name"
-          class="border p-2 w-full mb-2 rounded-lg"
-          required
-        />
+        <div class="mb-2">
+          <input
+            id="name"
+            placeholder="Name *"
+            class="border border-gray-300 p-2 w-full rounded-lg"
+            required
+          />
+        </div>
 
-        <input
-          id="phone"
-          placeholder="Phone"
-          class="border p-2 w-full mb-2 rounded-lg"
-          required
-        />
+        <div class="mb-2">
+          <input
+            id="phone"
+            placeholder="Phone *"
+            class="border border-gray-300 p-2 w-full rounded-lg"
+            required
+          />
+        </div>
 
-        <input
-          id="email"
-          placeholder="Email"
-          class="border p-2 w-full mb-2 rounded-lg"
-        />
+        <div class="mb-2">
+          <input
+            id="email"
+            placeholder="Email"
+            class="border border-gray-300 p-2 w-full rounded-lg"
+          />
+        </div>
 
-        <input
-          id="address"
-          placeholder="Address"
-          class="border p-2 w-full mb-2 rounded-lg"
-        />
+        <div class="mb-2">
+          <input
+            id="address"
+            placeholder="Address"
+            class="border border-gray-300 p-2 w-full rounded-lg"
+          />
+        </div>
 
-        <input
-          id="avatar"
-          placeholder="Avatar Image URL"
-          class="border p-2 w-full mb-2 rounded-lg"
-        />
+        <div class="mb-2">
+          <input
+            id="avatar"
+            placeholder="Avatar Image URL"
+            class="border border-gray-300 p-2 w-full rounded-lg"
+          />
+        </div>
 
         <div class="relative mb-4">
           <select
@@ -415,6 +425,10 @@
         </div>
       </div>
     </div>
-    <script src="./index.js"></script>
+    <script src="https://unpkg.com/libphonenumber-js@1.11.1/bundle/libphonenumber-js.min.js"></script>
+    <script src="./assets/scripts/storage.js"></script>
+    <script src="./assets/scripts/state.js"></script>
+    <script src="./assets/scripts/ui.js"></script>
+    <script src="./assets/scripts/main.js"></script>
   </body>
 </html>
