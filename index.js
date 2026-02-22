@@ -145,7 +145,55 @@ async function testCRUD() {
   console.log("\n✅ CRUD Tests Completed!");
 }
 
-// Export for testing
+// ================= DOM MANIPULATION =================
+function renderContacts(contacts) {
+  const contactList = document.getElementById("contactList");
+
+  if (!contactList) {
+    console.warn("contactList element not found");
+    return;
+  }
+
+  contactList.innerHTML = "";
+
+  contacts.forEach((contact) => {
+    const row = document.createElement("tr");
+    row.className = "border-b hover:bg-gray-50 cursor-pointer";
+    row.dataset.id = contact.id;
+
+    row.innerHTML = `
+      <td class="p-3">${contact.name}</td>
+      <td class="p-3">${contact.email}</td>
+      <td class="p-3">${contact.phone}</td>
+      <td class="p-3">
+          ${contact.address}
+      </td>
+    `;
+
+    contactList.appendChild(row);
+  });
+
+  const totalCount = document.getElementById("totalCount");
+  if (totalCount) {
+    totalCount.textContent = contacts.length;
+  }
+}
+
+async function loadAndRenderContacts() {
+  try {
+    const contacts = await getAllContacts();
+    renderContacts(contacts);
+  } catch (error) {
+    console.error("Error loading and rendering contacts:", error);
+  }
+}
+
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", () => {
+    loadAndRenderContacts();
+  });
+}
+
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     getAllContacts,
@@ -154,8 +202,11 @@ if (typeof module !== "undefined" && module.exports) {
     updateContact,
     deleteContact,
     testCRUD,
+    renderContacts,
+    loadAndRenderContacts,
   };
 } else {
-  // Run tests in browser
-  testCRUD();
+  // Run tests in browser console only (not on page load)
+  // Uncomment below to run tests
+  // testCRUD();
 }
