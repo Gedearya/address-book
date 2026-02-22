@@ -16,7 +16,7 @@ Jest is the most popular and easy-to-use JavaScript testing framework. Created b
 ## Installation
 
 ```bash
-npm install
+npm install --save-dev jest
 ```
 
 Required dependencies:
