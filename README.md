@@ -92,9 +92,8 @@ gede-contacts/
 │   │   └── main.js         # Event handlers & initialization
 │   └── images/
 │       └── address-book-drawio.jpg
-├── index.js                # API CRUD operations (MockAPI)
-├── index.test.js           # Jest unit tests
-├── test-data.js            # Test data from MockAPI
+├── app.test.js             # Jest unit tests
+├── package.json            # NPM configuration
 ├── README.md               # This file
 └── README-TESTING.md       # Testing documentation
 ```
@@ -330,12 +329,13 @@ npm run test:coverage
 
 **Test Coverage:**
 
-- ✅ GET all contacts
-- ✅ GET single contact by ID
-- ✅ POST create new contact
-- ✅ PUT update contact
-- ✅ DELETE contact
-- ✅ Error handling & network failures
+- ✅ Storage operations (load/save contacts and labels)
+- ✅ Validation (name, phone, email, address)
+- ✅ Duplicate detection with phone normalization
+- ✅ Filter and sort functionality
+- ✅ Contact CRUD operations
+- ✅ Trash management
+- ✅ Integration workflows
 
 See [README-TESTING.md](README-TESTING.md) for detailed testing documentation.
 

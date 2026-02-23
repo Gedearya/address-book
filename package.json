@@ -1,7 +1,7 @@
 {
-  "name": "contact-api-testing",
+  "name": "gede-contacts-testing",
   "version": "1.0.0",
-  "description": "Unit testing for Contact API CRUD operations",
+  "description": "Unit testing for Gede Contacts Application",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
@@ -16,7 +16,8 @@
       "/node_modules/"
     ],
     "collectCoverageFrom": [
-      "index.js"
+      "assets/scripts/*.js",
+      "!assets/scripts/main.js"
     ]
   }
 }

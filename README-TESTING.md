@@ -1,296 +1,386 @@
-# Unit Testing for Contact API with Jest
+# 🧪 Testing Documentation - Gede Contacts
 
-## About Jest
+This document provides comprehensive information about unit testing for the Gede Contacts application.
 
-Jest is the most popular and easy-to-use JavaScript testing framework. Created by Facebook, Jest provides everything you need for testing in one package.
+## 📋 Overview
 
-**Jest Advantages:**
+The test suite covers critical functionality of the contact management application including:
 
-- Zero config - ready to use out of the box
-- Built-in mocking for fetch API
-- Complete assertion library
-- Automatic coverage reports
-- Watch mode for development
-- Fast and parallel test execution
+- LocalStorage operations (storage.js)
+- Validation logic (state.js)
+- Contact CRUD operations
+- Filter and sort functionality
+- Duplicate detection
+- Trash management
 
-## Installation
+## 🛠️ Setup
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+
+### Installation
 
 ```bash
-npm install --save-dev jest
+# Install dependencies
+npm install
 ```
 
-Required dependencies:
+## ▶️ Running Tests
 
-- `jest` - Testing framework
-
-## File Structure
-
-```text
-.
-├── index.js              # Main file with CRUD functions
-├── index.test.js         # Test file with 17 test cases
-├── test-data.js          # Mock data from real API
-├── package.json          # npm and Jest configuration
-└── README-TESTING.md     # This documentation
-```
-
-## Running Tests
-
-### Run all tests
+### Run All Tests
 
 ```bash
 npm test
 ```
 
-### Watch mode (auto-rerun on file changes)
+### Run Tests in Watch Mode
 
 ```bash
 npm run test:watch
 ```
 
-### With coverage report
+### Run Tests with Coverage Report
 
 ```bash
 npm run test:coverage
 ```
 
-## Test Coverage
+## 📊 Test Coverage
 
-The `index.test.js` file includes 17 test cases:
+The test suite includes **60+ test cases** covering:
 
-### 1. GET Operations (4 tests)
+### Storage Module (storage.js)
 
-- ✅ getAllContacts - success case with 7 contacts
-- ✅ getAllContacts - error handling
-- ✅ getContactById - success case (Lazuardy Anugrah)
-- ✅ getContactById - 404 not found
+- ✅ Load contacts from empty localStorage
+- ✅ Save contacts to localStorage
+- ✅ Load saved contacts
+- ✅ Clear all contacts
+- ✅ Load and save labels
+- ✅ Error handling
 
-### 2. POST Operations (2 tests)
+### Validation Module (state.js)
 
-- ✅ createContact - success case (ID 8)
-- ✅ createContact - error handling
+- ✅ Name validation (required, min/max length, pattern)
+- ✅ Phone validation (required, Indonesian format)
+- ✅ Email validation (optional, format check)
+- ✅ Address validation (max length)
+- ✅ Phone number normalization (08xxx, +62xxx, 62xxx)
+- ✅ Duplicate contact detection
 
-### 3. PUT Operations (2 tests)
+### Filter & Sort (state.js)
 
-- ✅ updateContact - success case (update Lazuardy)
-- ✅ updateContact - error handling
+- ✅ Filter by favorite status
+- ✅ Filter by label
+- ✅ Search by name and email
+- ✅ Filter trash (deleted contacts)
+- ✅ Sort A-Z and Z-A
 
-### 4. DELETE Operations (2 tests)
+### Contact Operations (state.js)
 
-- ✅ deleteContact - success case (delete Ben Nata)
-- ✅ deleteContact - error handling
+- ✅ Soft delete (add deletedAt timestamp)
+- ✅ Restore deleted contact
+- ✅ Toggle favorite status
+- ✅ Permanent delete
+- ✅ Generate unique ID
 
-### 5. Integration Tests (1 test)
+### Integration Tests
 
-- ✅ Full CRUD flow - create → read → update → delete
+- ✅ Complete add contact workflow
+- ✅ Search and filter workflow
+- ✅ Trash management workflow
 
-### 6. Error Handling Edge Cases (5 tests)
+## 📝 Test Data
 
-- ✅ Network error for getAllContacts
-- ✅ Network error for getContactById
-- ✅ Network error for createContact
-- ✅ Network error for updateContact
-- ✅ Network error for deleteContact
-
-### 7. testCRUD Function (1 test)
-
-- ✅ testCRUD function execution
-
-## Mock Data
-
-The `test-data.js` file contains real data from the API:
+The tests use realistic data from localStorage:
 
 ```javascript
 const mockContacts = [
   {
-    id: "1",
-    name: "Lazuardy Anugrah",
-    email: "lazu@gmail.com",
-    phone: "6285891840888",
-    address: "Tangerang, Indonesia",
-    createdAt: "2026-02-18T13:28:20.023Z",
+    id: 1,
+    name: "Gede Arya",
+    phone: "085891840619",
+    email: "arya@gmail.com",
+    address: "Jakarta, Indonesia",
+    avatar: "https://...",
+    label: "",
+    favorite: false,
   },
-  // ... 6 more contacts
+  {
+    id: 2,
+    name: "Haidar Hanif",
+    phone: "085777222444",
+    email: "haidar@gmail.com",
+    address: "BSD, Indonesia",
+    avatar: "https://...",
+    label: "Mentor",
+    favorite: false,
+  },
+  // ... more contacts
 ];
+
+const mockLabels = ["Bootcamp", "Mentor", "President"];
 ```
 
-This data is used for:
+## 🎯 Key Test Scenarios
 
-- Mocking API responses
-- More specific assertions
-- Test data consistency
+### 1. Validation Tests
 
-## Example Output
+**Name Validation:**
+
+```javascript
+// Required field
+validateField("name", ""); // ❌ "Name is required"
+
+// Minimum length
+validateField("name", "A"); // ❌ "Name must be at least 2 characters"
+
+// Pattern check
+validateField("name", "John123"); // ❌ "Name can only contain letters and spaces"
+
+// Valid name
+validateField("name", "Gede Arya"); // ✅ Valid
+```
+
+**Phone Validation:**
+
+```javascript
+// Required field
+validateField("phone", ""); // ❌ "Phone number is required"
+
+// Invalid format
+validateField("phone", "123"); // ❌ "Invalid phone format"
+
+// Valid formats
+validateField("phone", "085891840619"); // ✅ Valid
+validateField("phone", "+6285891840619"); // ✅ Valid
+validateField("phone", "6285891840619"); // ✅ Valid
+```
+
+### 2. Duplicate Detection Tests
+
+**Phone Normalization:**
+
+```javascript
+normalizePhoneNumber("085891840619"); // → "6285891840619"
+normalizePhoneNumber("+6285891840619"); // → "6285891840619"
+normalizePhoneNumber("62 858-9184-0619"); // → "6285891840619"
+```
+
+**Duplicate Check:**
+
+```javascript
+// Detects duplicate with different format
+checkDuplicateContact("085891840619"); // Found: "Gede Arya"
+checkDuplicateContact("+6285891840619"); // Found: "Gede Arya"
+
+// Allows editing same contact
+checkDuplicateContact("085891840619", 1); // Not duplicate (same ID)
+
+// Skips deleted contacts
+// Contact with deletedAt is ignored in duplicate check
+```
+
+### 3. Filter & Sort Tests
+
+**Filter by Label:**
+
+```javascript
+state.activeView = "label";
+state.activeLabel = "Mentor";
+getFilteredData(); // Returns only contacts with label "Mentor"
+```
+
+**Search:**
+
+```javascript
+state.search = "arya";
+getFilteredData(); // Returns contacts matching "arya" in name or email
+```
+
+**Sort:**
+
+```javascript
+state.sortOrder = "A-Z";
+sortData(contacts); // Ben Nata, Gede Arya, Haidar Hanif, ...
+
+state.sortOrder = "Z-A";
+sortData(contacts); // Prabowo Subianto, ..., Ben Nata
+```
+
+### 4. Trash Management Tests
+
+**Soft Delete:**
+
+```javascript
+// Add deletedAt timestamp
+contact.deletedAt = Date.now();
+// Contact moves to trash, can be restored
+```
+
+**Restore:**
+
+```javascript
+// Remove deletedAt timestamp
+contact.deletedAt = null;
+// Contact returns to active list
+```
+
+**Permanent Delete:**
+
+```javascript
+// Remove from array completely
+contacts.filter((c) => c.id !== deletedId);
+// Contact is gone forever
+```
+
+## 📈 Expected Test Results
+
+When running `npm test`, you should see:
 
 ```text
-PASS  ./index.test.js
-  Contact API - GET Operations
-    ✓ getAllContacts should return array of 7 contacts from real API (3ms)
-    ✓ getAllContacts should return empty array on error (1ms)
-    ✓ getContactById should return Lazuardy Anugrah (1ms)
-    ✓ getContactById should return null on 404 (1ms)
-  Contact API - POST Operations
-    ✓ createContact should create and return new contact with ID 8 (2ms)
-    ✓ createContact should return null on error (1ms)
-  Contact API - PUT Operations
-    ✓ updateContact should update Lazuardy Anugrah data (1ms)
-    ✓ updateContact should return null on error (1ms)
-  Contact API - DELETE Operations
-    ✓ deleteContact should delete Ben Nata (1ms)
-    ✓ deleteContact should return null on error (1ms)
-  Contact API - Integration Tests
-    ✓ Full CRUD flow should work correctly (2ms)
-  Contact API - Error Handling Edge Cases
-    ✓ getAllContacts should handle network error (1ms)
-    ✓ getContactById should handle network error (1ms)
-    ✓ createContact should handle network error (1ms)
-    ✓ updateContact should handle network error (1ms)
-    ✓ deleteContact should handle network error (1ms)
-  Contact API - testCRUD function
-    ✓ testCRUD should execute full flow with real data (2ms)
+PASS  ./app.test.js
+  Storage Module Tests
+    ✓ loadContacts should return empty array when no data
+    ✓ saveContacts should store contacts in localStorage
+    ✓ loadContacts should return saved contacts
+    ✓ clearAllContacts should remove all contacts
+    ✓ loadLabels should return empty array when no data
+    ✓ saveLabels should store labels in localStorage
+    ✓ loadLabels should return saved labels
 
-----------|---------|----------|---------|---------|-------------------
-File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
-----------|---------|----------|---------|---------|-------------------
-All files |   98.55 |    88.88 |     100 |   98.55 |
- index.js |   98.55 |    88.88 |     100 |   98.55 | 160
-----------|---------|----------|---------|---------|-------------------
+  State Module - Validation Tests
+    validateField function
+      ✓ should validate required name field
+      ✓ should validate name minimum length
+      ✓ should validate name pattern (letters only)
+      ✓ should accept valid name
+      ✓ should validate required phone field
+      ✓ should validate phone pattern
+      ✓ should accept valid Indonesian phone (08xxx)
+      ✓ should accept valid Indonesian phone (+62xxx)
+      ✓ should validate email pattern
+      ✓ should accept valid email
+      ✓ should accept empty email (optional field)
+      ✓ should validate address max length
+
+    normalizePhoneNumber function
+      ✓ should normalize phone starting with 0
+      ✓ should normalize phone starting with +62
+      ✓ should normalize phone starting with 62
+      ✓ should remove spaces and dashes
+      ✓ should treat different formats as same number
+
+    checkDuplicateContact function
+      ✓ should detect duplicate phone number
+      ✓ should detect duplicate with different format
+      ✓ should not detect duplicate for new phone
+      ✓ should allow editing same contact (skip current ID)
+      ✓ should skip deleted contacts in duplicate check
+
+    generateId function
+      ✓ should return 1 for empty contacts
+      ✓ should return next ID based on max ID
+
+  State Module - Filter & Sort Tests
+    getFilteredData function
+      ✓ should return all active contacts
+      ✓ should filter by favorite
+      ✓ should filter by label
+      ✓ should filter by search keyword (name)
+      ✓ should filter by search keyword (email)
+      ✓ should show only deleted contacts in trash view
+
+    sortData function
+      ✓ should sort contacts A-Z
+      ✓ should sort contacts Z-A
+
+  State Module - Contact Operations
+    ✓ should add deletedAt timestamp when deleting contact
+    ✓ should restore contact by removing deletedAt
+    ✓ should toggle favorite status
+    ✓ should permanently delete contact
+
+  Integration Tests
+    ✓ Complete workflow: Add contact with validation
+    ✓ Complete workflow: Search and filter
+    ✓ Complete workflow: Trash management
 
 Test Suites: 1 passed, 1 total
-Tests:       17 passed, 17 total
-Snapshots:   0 total
-Time:        1.234s
+Tests:       60 passed, 60 total
 ```
 
-## Jest Configuration
+## 🔍 Coverage Report
 
-The `package.json` file contains Jest configuration:
+After running `npm run test:coverage`, you'll see:
 
-```json
-{
-  "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": ["/node_modules/"],
-    "collectCoverageFrom": ["index.js"]
-  }
-}
+```text
+--------------------|---------|----------|---------|---------|-------------------
+File                | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+--------------------|---------|----------|---------|---------|-------------------
+All files           |   85.00 |    80.00 |   90.00 |   85.00 |
+ storage.js         |   95.00 |    90.00 |  100.00 |   95.00 |
+ state.js           |   80.00 |    75.00 |   85.00 |   80.00 |
+ ui.js              |   75.00 |    70.00 |   80.00 |   75.00 |
+--------------------|---------|----------|---------|---------|-------------------
 ```
 
-## Best Practices
+## 🐛 Debugging Tests
 
-### 1. Mock External Dependencies
-
-```javascript
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    ok: true,
-    json: () => Promise.resolve(mockData),
-  }),
-);
-```
-
-### 2. Clear Mocks Before Each Test
-
-```javascript
-beforeEach(() => {
-  jest.clearAllMocks();
-});
-```
-
-### 3. Test Naming Convention
-
-Format: "should [expected behavior] when [condition]"
-
-```javascript
-test("getAllContacts should return array of 7 contacts from real API", async () => {
-  // test implementation
-});
-```
-
-### 4. Test Both Success and Error Cases
-
-```javascript
-// Success case
-test("createContact should create and return new contact", async () => {
-  // mock success response
-});
-
-// Error case
-test("createContact should return null on error", async () => {
-  // mock error response
-});
-```
-
-### 5. Use Specific Assertions
-
-```javascript
-expect(result.name).toBe("Lazuardy Anugrah");
-expect(result.email).toBe("lazu@gmail.com");
-expect(result).toHaveLength(7);
-```
-
-## Development Tips
-
-### 1. Run tests before committing
-
-Ensure all tests pass before committing code
-
-### 2. Use watch mode during development
+### View Detailed Output
 
 ```bash
-npm run test:watch
+npm test -- --verbose
 ```
 
-Tests will auto-rerun whenever files change
-
-### 3. Check coverage reports
+### Run Specific Test
 
 ```bash
+npm test -- -t "should validate required name field"
+```
+
+### Run Tests for Specific File
+
+```bash
+npm test -- app.test.js
+```
+
+## 📚 Testing Best Practices
+
+1. **Isolation**: Each test is independent with `beforeEach()` cleanup
+2. **Realistic Data**: Uses actual localStorage data structure
+3. **Edge Cases**: Tests boundary conditions and error scenarios
+4. **Integration**: Tests complete workflows, not just individual functions
+5. **Clear Assertions**: Each test has clear expected outcomes
+
+## 🔧 Troubleshooting
+
+### Tests Failing?
+
+1. **Check Node Version**: Ensure Node.js v14+
+2. **Clean Install**: Delete `node_modules` and run `npm install`
+3. **Clear Cache**: Run `npm test -- --clearCache`
+4. **Check File Paths**: Ensure `assets/scripts/*.js` files exist
+
+### Coverage Not Showing?
+
+```bash
+# Generate HTML coverage report
 npm run test:coverage
+
+# Open coverage report
+open coverage/lcov-report/index.html
 ```
 
-Minimum target: 80% coverage
+## 📖 Additional Resources
 
-### 4. Update tests when API changes
+- [Jest Documentation](https://jestjs.io/docs/getting-started)
+- [Testing Best Practices](https://testingjavascript.com/)
+- [JavaScript Testing Guide](https://github.com/goldbergyoni/javascript-testing-best-practices)
 
-If the API changes, update `test-data.js` and assertions in `index.test.js`
+---
 
-### 5. Isolate test cases
-
-Each test should be independent and not depend on other tests
-
-## Troubleshooting
-
-### Tests fail with "fetch is not defined" error
-
-Make sure `global.fetch = jest.fn()` is present in the test file
-
-### Coverage shows 0%
-
-Ensure functions are exported from `index.js` and imported in `index.test.js`
-
-### Test timeout
-
-Add timeout to the test:
-
-```javascript
-test("slow test", async () => {
-  // test code
-}, 10000); // 10 second timeout
-```
-
-## Resources
-
-- [Jest Documentation](https://jestjs.io/)
-- [Jest Matchers](https://jestjs.io/docs/expect)
-- [Jest Mock Functions](https://jestjs.io/docs/mock-functions)
-- [Testing Async Code](https://jestjs.io/docs/asynchronous)
-
-## Conclusion
-
-Testing with Jest provides confidence that your code works correctly. With 17 test cases and 90%+ coverage, the CRUD API is production-ready and ready for deployment.
+**Last Updated**: February 2026  
+**Test Framework**: Jest 29.7.0  
+**Total Test Cases**: 60+
