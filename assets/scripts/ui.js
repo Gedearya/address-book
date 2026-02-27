@@ -1,62 +1,58 @@
 // ================= DOM CACHE =================
-function getElementById(id) {
-  return document.getElementById(id);
-}
-
 const DOM = {
   // Lists
-  contactList: getElementById("contactList"),
-  totalCount: getElementById("totalCount"),
-  labelList: getElementById("labelList"),
+  contactList: document.getElementById("contactList"),
+  totalCount: document.getElementById("totalCount"),
+  labelList: document.getElementById("labelList"),
 
   // Sidebar
-  sidebar: getElementById("sidebar"),
-  toggleSidebarBtn: getElementById("toggleSidebarBtn"),
+  sidebar: document.getElementById("sidebar"),
+  toggleSidebarBtn: document.getElementById("toggleSidebarBtn"),
 
   // Menu buttons
-  openFormBtn: getElementById("openFormBtn"),
-  allMenu: getElementById("allMenu"),
-  favoriteMenu: getElementById("favoriteMenu"),
-  trashMenu: getElementById("trashMenu"),
-  emptyTrashBtn: getElementById("emptyTrashBtn"),
-  trashBanner: getElementById("trashBanner"),
+  openFormBtn: document.getElementById("openFormBtn"),
+  allMenu: document.getElementById("allMenu"),
+  favoriteMenu: document.getElementById("favoriteMenu"),
+  trashMenu: document.getElementById("trashMenu"),
+  emptyTrashBtn: document.getElementById("emptyTrashBtn"),
+  trashBanner: document.getElementById("trashBanner"),
 
   // Search and sort
-  search: getElementById("search"),
-  sortBtn: getElementById("sortBtn"),
+  search: document.getElementById("search"),
+  sortBtn: document.getElementById("sortBtn"),
 
   // Modals
-  formModal: getElementById("formModal"),
-  labelModal: getElementById("labelModal"),
-  detailPanel: getElementById("detailPanel"),
-  detailOverlay: getElementById("detailOverlay"),
+  formModal: document.getElementById("formModal"),
+  labelModal: document.getElementById("labelModal"),
+  detailPanel: document.getElementById("detailPanel"),
+  detailOverlay: document.getElementById("detailOverlay"),
 
   // Form buttons
-  cancelFormBtn: getElementById("cancelFormBtn"),
-  saveContactBtn: getElementById("saveContactBtn"),
+  cancelFormBtn: document.getElementById("cancelFormBtn"),
+  saveContactBtn: document.getElementById("saveContactBtn"),
 
   // Label buttons
-  openLabelBtn: getElementById("openLabelBtn"),
-  cancelLabelBtn: getElementById("cancelLabelBtn"),
-  saveLabelBtn: getElementById("saveLabelBtn"),
+  openLabelBtn: document.getElementById("openLabelBtn"),
+  cancelLabelBtn: document.getElementById("cancelLabelBtn"),
+  saveLabelBtn: document.getElementById("saveLabelBtn"),
 
   // Confirm modal
-  confirmModal: getElementById("confirmModal"),
-  confirmTitle: getElementById("confirmTitle"),
-  confirmMessage: getElementById("confirmMessage"),
-  confirmCancelBtn: getElementById("confirmCancelBtn"),
-  confirmOkBtn: getElementById("confirmOkBtn"),
+  confirmModal: document.getElementById("confirmModal"),
+  confirmTitle: document.getElementById("confirmTitle"),
+  confirmMessage: document.getElementById("confirmMessage"),
+  confirmCancelBtn: document.getElementById("confirmCancelBtn"),
+  confirmOkBtn: document.getElementById("confirmOkBtn"),
 
   // Form inputs
   inputs: {
-    id: getElementById("contactId"),
-    name: getElementById("name"),
-    phone: getElementById("phone"),
-    email: getElementById("email"),
-    address: getElementById("address"),
-    avatar: getElementById("avatar"),
-    label: getElementById("label"),
-    newLabel: getElementById("newLabelInput"),
+    id: document.getElementById("contactId"),
+    name: document.getElementById("name"),
+    phone: document.getElementById("phone"),
+    email: document.getElementById("email"),
+    address: document.getElementById("address"),
+    avatar: document.getElementById("avatar"),
+    label: document.getElementById("label"),
+    newLabel: document.getElementById("newLabelInput"),
   },
 };
 
@@ -200,22 +196,19 @@ function renderLabelEmptyState() {
 }
 
 // ================= RENDER =================
-function renderAvatar(contact, size = "w-9 h-9", textSize = "") {
+function renderAvatar(
+  contact,
+  size = "w-9 h-9",
+  textSize = "",
+  rounded = true,
+) {
+  const roundedClass = rounded ? "rounded-full" : "";
+
   if (contact.avatar) {
-    return `<img src="${contact.avatar}" class="${size} rounded-full object-cover" alt="${contact.name}">`;
+    return `<img src="${contact.avatar}" class="${size} ${roundedClass} object-cover" alt="${contact.name}">`;
   }
 
-  return `<div class="${size} rounded-full ${getAvatarColor(contact.name)} text-white flex items-center justify-center font-semibold ${textSize}">
-    ${getInitials(contact.name)}
-  </div>`;
-}
-
-function renderPicture(contact, size = "w-9 h-9", textSize = "") {
-  if (contact.avatar) {
-    return `<img src="${contact.avatar}" class="${size} object-cover" alt="${contact.name}">`;
-  }
-
-  return `<div class="${size} ${getAvatarColor(contact.name)} text-white flex items-center justify-center font-semibold ${textSize}">
+  return `<div class="${size} ${roundedClass} ${getAvatarColor(contact.name)} text-white flex items-center justify-center font-semibold ${textSize}">
     ${getInitials(contact.name)}
   </div>`;
 }
@@ -394,7 +387,7 @@ function showDetail(id) {
 <div class="bg-white rounded-xl border p-5">
 
   <div class="flex justify-center mb-4">
-    ${renderPicture(c, "w-36 h-36", "text-5xl")}
+    ${renderAvatar(c, "w-36 h-36", "text-5xl", false)}
   </div>
 
   <div class="space-y-3 text-sm">
@@ -476,14 +469,6 @@ function closeDetail() {
 }
 
 // ================= UI HELPERS =================
-function toggleElement(element, show) {
-  if (show) {
-    element.classList.remove("hidden");
-  } else {
-    element.classList.add("hidden");
-  }
-}
-
 function toggleSidebar() {
   state.sidebarOpen = !state.sidebarOpen;
 
@@ -505,8 +490,8 @@ function updateCounters() {
 
 function updateTrashUI() {
   const isTrashView = state.activeView === "trash";
-  toggleElement(DOM.emptyTrashBtn, isTrashView);
-  toggleElement(DOM.trashBanner, isTrashView);
+  DOM.emptyTrashBtn.classList.toggle("hidden", !isTrashView);
+  DOM.trashBanner.classList.toggle("hidden", !isTrashView);
 }
 
 function applyFilterAndSort() {
@@ -616,7 +601,8 @@ function openConfirmModal(title, message, onConfirm, okText = "Delete") {
 }
 
 function closeConfirmModal() {
-  state.confirmAction = null;
+  // Reset cancel button visibility
+  DOM.confirmCancelBtn.style.display = "";
   toggleModal(DOM.confirmModal, false);
 }
 
