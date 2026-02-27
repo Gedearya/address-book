@@ -81,14 +81,14 @@ function normalizePhoneNumber(phone) {
 
   // Convert to standard format (starting with 62)
   if (normalized.startsWith("+62")) {
-    normalized = normalized.substring(1); // Remove +, keep 62
-  } else if (normalized.startsWith("0")) {
-    normalized = "62" + normalized.substring(1); // Replace 0 with 62
-  } else if (normalized.startsWith("62")) {
-    // Already in correct format
-    normalized = normalized;
+    return normalized.substring(1); // Remove +, keep 62
   }
 
+  if (normalized.startsWith("0")) {
+    return "62" + normalized.substring(1); // Replace 0 with 62
+  }
+
+  // Already in correct format (62xxx)
   return normalized;
 }
 
@@ -289,16 +289,29 @@ function cleanupTrash() {
 }
 
 // ================= LABEL OPERATIONS =================
+function showAlertModal(message) {
+  closeLabelModal();
+  openConfirmModal("Alert", message, () => {}, "OK");
+  // Hide cancel button for alert-style modals
+  DOM.confirmCancelBtn.style.display = "none";
+}
+
 function saveNewLabel() {
   const name = DOM.inputs.newLabel.value.trim();
-  if (!name) return alert("Label required");
+  if (!name) {
+    showAlertModal("Label name is required");
+    return;
+  }
 
   let labels = loadLabels();
   const isEditMode = state.editingLabel !== null;
 
   if (isEditMode) {
     if (labels.includes(name) && name !== state.editingLabel) {
-      return alert("Label already exists");
+      showAlertModal(
+        `Label <span class="text-red-500 font-semibold">${name} </span> already exists`,
+      );
+      return;
     }
     labels = labels.map((l) => (l === state.editingLabel ? name : l));
     const contacts = loadContacts().map((c) =>
@@ -306,7 +319,12 @@ function saveNewLabel() {
     );
     saveContacts(contacts);
   } else {
-    if (labels.includes(name)) return alert("Label already exists");
+    if (labels.includes(name)) {
+      showAlertModal(
+        `Label <span class="text-red-500 font-semibold"">${name} </span> already exists`,
+      );
+      return;
+    }
     labels.push(name);
   }
 
