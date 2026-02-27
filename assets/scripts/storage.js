@@ -1,20 +1,38 @@
 // ================= STORAGE =================
-function loadContacts() {
+// Generic storage functions
+function loadFromStorage(key) {
   try {
-    const data = localStorage.getItem("contacts");
+    const data = localStorage.getItem(key);
     return data ? JSON.parse(data) : [];
   } catch (error) {
-    console.error("Error loading contacts:", error);
+    console.error(`Error loading ${key}:`, error);
     return [];
   }
 }
 
-function saveContacts(data) {
+function saveToStorage(key, data) {
   try {
-    localStorage.setItem("contacts", JSON.stringify(data));
+    localStorage.setItem(key, JSON.stringify(data));
   } catch (error) {
-    console.error("Error saving contacts:", error);
+    console.error(`Error saving ${key}:`, error);
   }
+}
+
+// Specific functions
+function loadContacts() {
+  return loadFromStorage("contacts");
+}
+
+function saveContacts(data) {
+  saveToStorage("contacts", data);
+}
+
+function loadLabels() {
+  return loadFromStorage("labels");
+}
+
+function saveLabels(data) {
+  saveToStorage("labels", data);
 }
 
 function clearAllContacts() {
@@ -25,23 +43,5 @@ function clearAllContacts() {
   } catch (error) {
     console.error("Error clearing contacts:", error);
     return { success: false, message: error.message };
-  }
-}
-
-function loadLabels() {
-  try {
-    const data = localStorage.getItem("labels");
-    return data ? JSON.parse(data) : [];
-  } catch (error) {
-    console.error("Error loading labels:", error);
-    return [];
-  }
-}
-
-function saveLabels(data) {
-  try {
-    localStorage.setItem("labels", JSON.stringify(data));
-  } catch (error) {
-    console.error("Error saving labels:", error);
   }
 }
