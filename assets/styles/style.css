@@ -4,6 +4,97 @@ select option {
   color: #000000 !important;
 }
 
+/* ================= HEADER SHADOW ================= */
+/* Add subtle shadow to header for depth */
+header {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+z
+/* ================= SIDEBAR SHADOW ================= */
+/* Add subtle shadow to sidebar */
+aside {
+  box-shadow: 1px 0 3px rgba(0, 0, 0, 0.05);
+}
+
+/* ================= TABLE IMPROVEMENTS ================= */
+/* Better table styling */
+table thead {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Hover effect for table rows */
+tbody tr:hover {
+  background-color: #f1f1f1 !important;
+  transition: background-color 0.15s ease;
+}
+
+/* Selected row styling */
+tbody tr.bg-blue-50:hover {
+  background-color: #dbeafe !important;
+}
+
+/* ================= AVATAR IMPROVEMENTS ================= */
+/* Smooth avatar transitions */
+img[alt],
+div[class*="rounded-full"] {
+  transition: transform 0.2s ease;
+}
+
+tbody tr:hover img[alt],
+tbody tr:hover div[class*="rounded-full"] {
+  transform: scale(1.05);
+}
+
+/* ================= BUTTON IMPROVEMENTS ================= */
+/* Add Contact button enhancement */
+#openFormBtn {
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+  transition: all 0.2s ease;
+}
+
+#openFormBtn:hover {
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+  transform: translateY(-1px);
+}
+
+#openFormBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(59, 130, 246, 0.2);
+}
+
+/* ================= SEARCH INPUT ENHANCEMENT ================= */
+/* Better search input styling */
+#search {
+  transition: all 0.2s ease;
+}
+
+#search:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #3b82f6;
+}
+
+/* ================= SORT BUTTON ENHANCEMENT ================= */
+/* Better sort button */
+#sortBtn {
+  transition: all 0.2s ease;
+}
+
+#sortBtn:hover {
+  background-color: #f3f4f6;
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+/* ================= LABEL LIST IMPROVEMENTS ================= */
+/* Better label item hover */
+#labelList > div {
+  transition: all 0.15s ease;
+}
+
+#labelList > div:hover {
+  background-color: #f3f4f6;
+}
+
 /* ================= SCROLLBAR ================= */
 /* Custom scrollbar for better aesthetics */
 ::-webkit-scrollbar {
@@ -56,27 +147,11 @@ button:focus {
   }
 }
 
-/* ================= TABLE HOVER ================= */
-/* Smooth table row hover effect */
-tbody tr {
-  transition: background-color 0.15s ease-in-out;
-}
-
 /* ================= CHECKBOX STYLING ================= */
 /* Better checkbox appearance */
 input[type="checkbox"] {
   cursor: pointer;
   accent-color: #3b82f6;
-}
-
-/* ================= BUTTON HOVER EFFECTS ================= */
-/* Subtle scale effect on button hover */
-button:hover:not(:disabled) {
-  transform: translateY(-1px);
-}
-
-button:active:not(:disabled) {
-  transform: translateY(0);
 }
 
 /* ================= DISABLED STATES ================= */
@@ -93,6 +168,47 @@ select:disabled {
 ::selection {
   background-color: #dbeafe;
   color: #1e40af;
+}
+
+/* ================= FLOATING ACTION BAR ================= */
+/* Better bulk action bar */
+#bulkActionBar {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translate(-50%, 20px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+/* ================= DETAIL PANEL ================= */
+/* Smooth detail panel transition */
+#detailPanel {
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ================= MODAL IMPROVEMENTS ================= */
+/* Better modal appearance */
+[id$="Modal"] > div {
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* ================= PRINT STYLES ================= */
@@ -128,5 +244,15 @@ select:disabled {
   /* Better spacing on mobile */
   .modal-content {
     margin: 16px;
+  }
+
+  /* Hide sidebar by default on mobile */
+  aside {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: 50;
+    background: white;
   }
 }
