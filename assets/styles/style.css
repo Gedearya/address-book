@@ -1,0 +1,132 @@
+/* ================= SELECT DROPDOWN ================= */
+/* Style for select dropdown options */
+select option {
+  color: #000000 !important;
+}
+
+/* ================= SCROLLBAR ================= */
+/* Custom scrollbar for better aesthetics */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ================= SMOOTH TRANSITIONS ================= */
+/* Smooth transitions for interactive elements */
+button,
+input,
+select {
+  transition: all 0.2s ease-in-out;
+}
+
+/* ================= FOCUS STATES ================= */
+/* Better focus indicators for accessibility */
+input:focus,
+select:focus,
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ================= MODAL ANIMATIONS ================= */
+/* Smooth modal backdrop */
+.modal-backdrop {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ================= TABLE HOVER ================= */
+/* Smooth table row hover effect */
+tbody tr {
+  transition: background-color 0.15s ease-in-out;
+}
+
+/* ================= CHECKBOX STYLING ================= */
+/* Better checkbox appearance */
+input[type="checkbox"] {
+  cursor: pointer;
+  accent-color: #3b82f6;
+}
+
+/* ================= BUTTON HOVER EFFECTS ================= */
+/* Subtle scale effect on button hover */
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* ================= DISABLED STATES ================= */
+/* Clear disabled state styling */
+button:disabled,
+input:disabled,
+select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ================= SELECTION ================= */
+/* Custom text selection color */
+::selection {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+/* ================= PRINT STYLES ================= */
+/* Optimize for printing */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+
+  table {
+    page-break-inside: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+}
+
+/* ================= MOBILE OPTIMIZATIONS ================= */
+@media (max-width: 768px) {
+  /* Larger touch targets on mobile */
+  button,
+  input[type="checkbox"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Better spacing on mobile */
+  .modal-content {
+    margin: 16px;
+  }
+}
