@@ -264,6 +264,14 @@
           <table class="w-full">
             <thead class="bg-gray-50 border-b sticky top-0">
               <tr>
+                <th class="text-left p-3 w-12">
+                  <input
+                    type="checkbox"
+                    id="selectAllCheckbox"
+                    class="w-4 h-4 text-blue-600 rounded cursor-pointer"
+                    title="Select All"
+                  />
+                </th>
                 <th class="text-left p-3">Name</th>
                 <th class="text-left p-3">Email</th>
                 <th class="text-left p-3">Phone</th>
@@ -272,6 +280,84 @@
             </thead>
             <tbody id="contactList"></tbody>
           </table>
+        </div>
+
+        <div
+          id="bulkActionBar"
+          class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-blue-600 text-white rounded-lg shadow-2xl px-6 py-3 z-50 flex items-center gap-4"
+        >
+          <span id="selectedCount" class="font-semibold">0 selected</span>
+          <div class="h-6 w-px bg-white/30"></div>
+          <button
+            id="bulkAddLabelBtn"
+            class="hover:bg-blue-700 px-3 py-1 rounded transition flex items-center gap-2"
+            title="Edit Label"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+              />
+            </svg>
+            Set Label
+          </button>
+          <button
+            id="bulkRestoreBtn"
+            class="hidden hover:bg-blue-700 px-3 py-1 rounded transition flex items-center gap-2"
+            title="Restore Selected"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+            Restore
+          </button>
+          <button
+            id="bulkDeleteBtn"
+            class="hover:bg-blue-700 px-3 py-1 rounded transition flex items-center gap-2"
+            title="Delete Selected"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+            <span id="bulkDeleteText">Delete</span>
+          </button>
+          <button
+            id="bulkDeselectBtn"
+            class="hover:bg-blue-700 px-3 py-1 rounded transition"
+            title="Deselect All"
+          >
+            ✕
+          </button>
         </div>
       </main>
     </div>
@@ -422,6 +508,45 @@
         </div>
       </div>
     </div>
+
+    <div
+      id="bulkLabelModal"
+      class="fixed inset-0 bg-black/40 hidden items-center justify-center z-[9999]"
+    >
+      <div class="bg-white w-80 rounded-xl p-6">
+        <h2 id="bulkLabelModalTitle" class="text-lg font-semibold mb-4">
+          Edit Label
+        </h2>
+
+        <p class="text-sm text-gray-600 mb-4">
+          Select a label for
+          <span id="bulkLabelCount" class="font-semibold">0</span> contacts
+        </p>
+
+        <select
+          id="bulkLabelSelect"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 mb-2 text-gray-400"
+        >
+          <option value="">-- No Label --</option>
+        </select>
+
+        <div class="flex justify-end gap-2">
+          <button
+            id="cancelBulkLabelBtn"
+            class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+          >
+            Cancel
+          </button>
+          <button
+            id="applyBulkLabelBtn"
+            class="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script src="https://unpkg.com/libphonenumber-js@1.11.1/bundle/libphonenumber-js.min.js"></script>
     <script src="./assets/scripts/storage.js"></script>
     <script src="./assets/scripts/state.js"></script>
