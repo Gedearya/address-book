@@ -43,6 +43,22 @@ const DOM = {
   confirmCancelBtn: document.getElementById("confirmCancelBtn"),
   confirmOkBtn: document.getElementById("confirmOkBtn"),
 
+  // Bulk operations
+  selectAllCheckbox: document.getElementById("selectAllCheckbox"),
+  bulkActionBar: document.getElementById("bulkActionBar"),
+  selectedCount: document.getElementById("selectedCount"),
+  bulkAddLabelBtn: document.getElementById("bulkAddLabelBtn"),
+  bulkRestoreBtn: document.getElementById("bulkRestoreBtn"),
+  bulkDeleteBtn: document.getElementById("bulkDeleteBtn"),
+  bulkDeleteText: document.getElementById("bulkDeleteText"),
+  bulkDeselectBtn: document.getElementById("bulkDeselectBtn"),
+  bulkLabelModal: document.getElementById("bulkLabelModal"),
+  bulkLabelModalTitle: document.getElementById("bulkLabelModalTitle"),
+  bulkLabelSelect: document.getElementById("bulkLabelSelect"),
+  bulkLabelCount: document.getElementById("bulkLabelCount"),
+  cancelBulkLabelBtn: document.getElementById("cancelBulkLabelBtn"),
+  applyBulkLabelBtn: document.getElementById("applyBulkLabelBtn"),
+
   // Form inputs
   inputs: {
     id: document.getElementById("contactId"),
@@ -95,7 +111,7 @@ function getAvatarColor(name) {
 function updateLabelColor() {
   const hasValue = DOM.inputs.label.value !== "";
   DOM.inputs.label.classList.toggle("text-gray-400", !hasValue);
-  DOM.inputs.label.classList.toggle("text-gray-700", hasValue);
+  DOM.inputs.label.classList.toggle("text-black", hasValue);
 }
 
 function formatPhoneDisplay(raw) {
@@ -172,7 +188,7 @@ function renderEmptyState(type) {
 
   return `
     <tr>
-      <td colspan="4" class="p-12">
+      <td colspan="5" class="p-12">
         <div class="flex flex-col items-center justify-center text-center">
           ${config.icon}
           <h3 class="text-xl font-semibold text-gray-700 mt-4">${config.title}</h3>
@@ -214,6 +230,7 @@ function renderAvatar(
 }
 
 function renderContactRow(contact) {
+  const isSelected = state.selectedContacts.has(contact.id);
   const labelBadge = contact.label
     ? `<div class="inline-block bg-blue-100 text-blue-600 
          px-3 py-1 rounded-full text-xs font-medium">
@@ -222,17 +239,25 @@ function renderContactRow(contact) {
     : "";
 
   return `
-    <tr class="border-b hover:bg-gray-100 cursor-pointer"
-        onclick="showDetail(${contact.id})">
-      <td class="p-3 flex items-center gap-3">
+    <tr class="border-b hover:bg-gray-500 ${isSelected ? "bg-blue-50" : ""}">
+      <td class="p-3">
+        <input
+          type="checkbox"
+          class="contact-checkbox w-4 h-4 text-blue-600 rounded cursor-pointer"
+          data-id="${contact.id}"
+          ${isSelected ? "checked" : ""}
+          onclick="event.stopPropagation(); toggleSelectContact(${contact.id})"
+        />
+      </td>
+      <td class="p-3 flex items-center gap-3 cursor-pointer" onclick="showDetail(${contact.id})">
         ${renderAvatar(contact)}
         ${contact.name}
       </td>
-      <td class="p-3">${contact.email || "-"}</td>
-      <td class="p-3">
+      <td class="p-3 cursor-pointer" onclick="showDetail(${contact.id})">${contact.email || "-"}</td>
+      <td class="p-3 cursor-pointer" onclick="showDetail(${contact.id})">
         ${contact.phone ? formatPhoneDisplay(contact.phone) : "-"}
       </td>
-      <td class="p-3">${labelBadge}</td>
+      <td class="p-3 cursor-pointer" onclick="showDetail(${contact.id})">${labelBadge}</td>
     </tr>`;
 }
 
@@ -473,11 +498,11 @@ function toggleSidebar() {
   state.sidebarOpen = !state.sidebarOpen;
 
   if (state.sidebarOpen) {
-    DOM.sidebar.classList.remove("-ml-64");
-    DOM.sidebar.classList.add("ml-0");
+    DOM.sidebar.classList.remove("w-0");
+    DOM.sidebar.classList.add("w-64");
   } else {
-    DOM.sidebar.classList.remove("ml-0");
-    DOM.sidebar.classList.add("-ml-64");
+    DOM.sidebar.classList.remove("w-64");
+    DOM.sidebar.classList.add("w-0");
   }
 }
 
@@ -626,4 +651,157 @@ function getContactFormData() {
     label: DOM.inputs.label.value,
     favorite: false,
   };
+}
+
+// ================= BULK OPERATIONS UI =================
+function updateBulkActionBar() {
+  const count = state.selectedContacts.size;
+
+  if (count > 0) {
+    DOM.bulkActionBar.classList.remove("hidden");
+    DOM.bulkActionBar.classList.add("flex");
+    DOM.selectedCount.textContent = `${count} selected`;
+
+    // Show/hide buttons based on active view
+    if (state.activeView === "trash") {
+      // In trash: show Restore and Delete Forever
+      DOM.bulkAddLabelBtn.classList.add("hidden");
+      DOM.bulkRestoreBtn.classList.remove("hidden");
+      DOM.bulkDeleteText.textContent = "Delete Forever";
+      DOM.bulkDeleteBtn.title = "Delete Forever";
+    } else {
+      // Not in trash: show Label and Delete (move to trash)
+      DOM.bulkAddLabelBtn.classList.remove("hidden");
+      DOM.bulkRestoreBtn.classList.add("hidden");
+      DOM.bulkDeleteText.textContent = "Delete";
+      DOM.bulkDeleteBtn.title = "Delete Selected";
+    }
+  } else {
+    DOM.bulkActionBar.classList.add("hidden");
+    DOM.bulkActionBar.classList.remove("flex");
+  }
+}
+
+function updateSelectAllCheckbox() {
+  const visibleContacts = getFilteredData();
+  const allSelected =
+    visibleContacts.length > 0 &&
+    visibleContacts.every((c) => state.selectedContacts.has(c.id));
+
+  DOM.selectAllCheckbox.checked = allSelected;
+  DOM.selectAllCheckbox.indeterminate =
+    state.selectedContacts.size > 0 && !allSelected;
+}
+
+function handleSelectAll() {
+  const visibleContacts = getFilteredData();
+  const allSelected = visibleContacts.every((c) =>
+    state.selectedContacts.has(c.id),
+  );
+
+  if (allSelected) {
+    // Deselect all visible
+    visibleContacts.forEach((c) => state.selectedContacts.delete(c.id));
+  } else {
+    // Select all visible
+    visibleContacts.forEach((c) => state.selectedContacts.add(c.id));
+  }
+
+  updateBulkActionBar();
+  updateSelectAllCheckbox();
+  applyFilterAndSort();
+}
+
+function openBulkLabelModal() {
+  if (state.selectedContacts.size === 0) return;
+
+  // Get selected contacts
+  const selectedIds = Array.from(state.selectedContacts);
+  const allContacts = loadContacts();
+  const selectedContactsData = allContacts.filter((c) =>
+    selectedIds.includes(c.id),
+  );
+
+  // Check if any selected contact has a label
+  const hasLabels = selectedContactsData.some(
+    (c) => c.label && c.label.trim() !== "",
+  );
+
+  // Set modal title based on whether contacts have labels
+  DOM.bulkLabelModalTitle.textContent = hasLabels ? "Edit Label" : "Add Label";
+
+  // Populate label options (like add contact form)
+  const labels = loadLabels();
+  const options = [
+    '<option value="">-- No Label --</option>',
+    ...labels.map((l) => `<option value="${l}">${l}</option>`),
+  ];
+
+  DOM.bulkLabelSelect.innerHTML = options.join("");
+  DOM.bulkLabelCount.textContent = state.selectedContacts.size;
+
+  // Update label color (like in add contact form)
+  updateBulkLabelColor();
+
+  toggleModal(DOM.bulkLabelModal, true);
+}
+
+function closeBulkLabelModal() {
+  toggleModal(DOM.bulkLabelModal, false);
+}
+
+function updateBulkLabelColor() {
+  const hasValue = DOM.bulkLabelSelect.value !== "";
+  DOM.bulkLabelSelect.classList.toggle("text-gray-400", !hasValue);
+  DOM.bulkLabelSelect.classList.toggle("text-black", hasValue);
+}
+
+function applyBulkLabel() {
+  const label = DOM.bulkLabelSelect.value;
+
+  // Empty string means no label (remove label)
+  bulkAddLabel(label);
+  closeBulkLabelModal();
+}
+
+function confirmBulkDelete() {
+  if (state.selectedContacts.size === 0) return;
+
+  const count = state.selectedContacts.size;
+
+  if (state.activeView === "trash") {
+    // Delete permanently
+    openConfirmModal(
+      "Delete Forever",
+      `Permanently delete <span class="font-semibold text-red-600">${count} contact${count > 1 ? "s" : ""}</span>? This cannot be undone.`,
+      () => {
+        bulkDeletePermanent();
+      },
+      "Delete Forever",
+    );
+  } else {
+    // Move to trash
+    openConfirmModal(
+      "Delete Selected Contacts",
+      `Move <span class="font-semibold text-red-600">${count} contact${count > 1 ? "s" : ""}</span> to trash?`,
+      () => {
+        bulkDelete();
+      },
+      "Move to Trash",
+    );
+  }
+}
+
+function confirmBulkRestore() {
+  if (state.selectedContacts.size === 0) return;
+
+  const count = state.selectedContacts.size;
+  openConfirmModal(
+    "Restore Selected Contacts",
+    `Restore <span class="font-semibold text-green-600">${count} contact${count > 1 ? "s" : ""}</span> from trash?`,
+    () => {
+      bulkRestore();
+    },
+    "Restore",
+  );
 }
