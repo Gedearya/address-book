@@ -53,6 +53,16 @@ function initializeEventListeners() {
     });
   };
 
+  // Bulk operation events
+  DOM.selectAllCheckbox.onclick = handleSelectAll;
+  DOM.bulkAddLabelBtn.onclick = openBulkLabelModal;
+  DOM.bulkRestoreBtn.onclick = confirmBulkRestore;
+  DOM.bulkDeleteBtn.onclick = confirmBulkDelete;
+  DOM.bulkDeselectBtn.onclick = deselectAllContacts;
+  DOM.cancelBulkLabelBtn.onclick = closeBulkLabelModal;
+  DOM.applyBulkLabelBtn.onclick = applyBulkLabel;
+  DOM.bulkLabelSelect.addEventListener("change", updateBulkLabelColor);
+
   // Form input events
   DOM.inputs.label.addEventListener("change", updateLabelColor);
 
