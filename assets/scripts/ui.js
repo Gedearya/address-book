@@ -360,19 +360,30 @@ function renderContacts(data = loadContacts()) {
   if (data.length === 0) {
     let emptyStateType;
 
-    if (state.search) {
-      emptyStateType = "noSearchResults";
-    } else if (state.activeView === "trash") {
+    // Check if there are any active contacts at all (excluding deleted)
+    const allContacts = loadContacts();
+    const activeContacts = allContacts.filter((c) => !c.deletedAt);
+    const hasNoActiveContacts = activeContacts.length === 0;
+
+    // Priority 1: Check specific views first
+    if (state.activeView === "trash") {
       emptyStateType = "emptyTrash";
     } else if (state.activeView === "favorite") {
       emptyStateType = "emptyFavorites";
     } else if (state.activeView === "label") {
       emptyStateType = "emptyLabel";
-    } else {
-      // Check if there are any contacts at all
-      const allContacts = loadContacts();
-      emptyStateType =
-        allContacts.length === 0 ? "noContacts" : "noSearchResults";
+    }
+    // Priority 2: If truly no contacts exist and in "all" view, show "No contacts yet"
+    else if (hasNoActiveContacts && state.activeView === "all") {
+      emptyStateType = "noContacts";
+    }
+    // Priority 3: If there are contacts but search/filter returns nothing
+    else if (state.search) {
+      emptyStateType = "noSearchResults";
+    }
+    // Fallback
+    else {
+      emptyStateType = "noSearchResults";
     }
 
     DOM.contactList.innerHTML = renderEmptyState(emptyStateType);
