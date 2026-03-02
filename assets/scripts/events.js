@@ -78,7 +78,6 @@ function initializeEventListeners() {
     });
 
     DOM.inputs[field].addEventListener("input", function () {
-      // Clear error on input if field was previously invalid
       const errorElement = document.getElementById(`${field}Error`);
       if (errorElement) {
         clearFieldError(field);
@@ -86,13 +85,3 @@ function initializeEventListeners() {
     });
   });
 }
-
-// ================= INITIALIZATION =================
-function initialize() {
-  cleanupTrash();
-  initializeEventListeners();
-  refreshUI();
-}
-
-// Initialize when DOM is ready
-initialize();
