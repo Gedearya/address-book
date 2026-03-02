@@ -366,7 +366,185 @@
     <div
       id="detailPanel"
       class="fixed top-0 right-0 h-full w-80 bg-white border-l shadow-lg translate-x-full transition-transform duration-300 p-6 z-50"
-    ></div>
+    >
+      <!-- Detail Panel Header -->
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold text-gray-800">Contact Details</h2>
+        <button
+          onclick="closeDetail()"
+          class="text-gray-400 hover:text-gray-600"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Avatar -->
+      <div class="flex justify-center mb-4">
+        <div
+          id="detailAvatar"
+          class="w-40 h-40 rounded-lg overflow-hidden bg-gray-200"
+        ></div>
+      </div>
+
+      <!-- Name and Favorite -->
+      <div class="flex items-center justify-center gap-2 mb-6">
+        <h3
+          id="detailName"
+          class="text-xl font-bold text-gray-900 text-center"
+        ></h3>
+        <button
+          id="detailFavoriteBtn"
+          class="text-yellow-500 hover:text-yellow-600 transition-colors"
+        ></button>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="space-y-4">
+        <div>
+          <label class="text-sm font-medium text-gray-500">Phone</label>
+          <p id="detailPhone" class="text-gray-900 font-medium"></p>
+        </div>
+
+        <div>
+          <label class="text-sm font-medium text-gray-500">Email</label>
+          <p id="detailEmail" class="text-gray-900"></p>
+        </div>
+
+        <div>
+          <label class="text-sm font-medium text-gray-500">Address</label>
+          <p id="detailAddress" class="text-gray-900"></p>
+        </div>
+
+        <div>
+          <label class="text-sm font-medium text-gray-500">Label</label>
+          <p id="detailLabel" class="text-gray-900"></p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col gap-2 mt-8">
+        <button
+          id="detailEditBtn"
+          class="flex items-center justify-center gap-2 px-4 py-3 text-blue-700 hover:bg-blue-100 rounded-lg transition border border-blue-300"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+            />
+          </svg>
+          Edit Contact
+        </button>
+
+        <button
+          id="detailDeleteBtn"
+          class="flex items-center justify-center gap-2 px-4 py-3 text-red-600 hover:bg-red-100 rounded-lg transition border border-red-300"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+          Move to Trash
+        </button>
+
+        <button
+          id="detailRestoreBtn"
+          class="flex items-center justify-center gap-2 px-4 py-3 text-green-700 hover:bg-green-100 rounded-lg transition border border-green-300"
+          style="display: none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
+            />
+          </svg>
+          Restore Contact
+        </button>
+
+        <button
+          id="detailDeleteForeverBtn"
+          class="flex items-center justify-center gap-2 px-4 py-3 text-red-700 hover:bg-red-50 rounded-lg transition border border-red-300"
+          style="display: none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+          Delete Forever
+        </button>
+
+        <button
+          id="detailDeleteForeverBtn"
+          class="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+          style="display: none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+          Delete Forever
+        </button>
+      </div>
+    </div>
 
     <div
       id="formModal"
@@ -548,18 +726,28 @@
       </div>
     </div>
 
+    <!-- External Libraries -->
     <script src="https://unpkg.com/libphonenumber-js@1.11.1/bundle/libphonenumber-js.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/plugin/relativeTime.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/locale/id.min.js"></script>
     <script>
-      // Configure Day.js
       dayjs.extend(window.dayjs_plugin_relativeTime);
       dayjs.locale("id");
     </script>
+
+    <!-- Application Scripts (Load in order) -->
     <script src="./assets/scripts/storage.js"></script>
     <script src="./assets/scripts/state.js"></script>
-    <script src="./assets/scripts/ui.js"></script>
-    <script src="./assets/scripts/main.js"></script>
+    <script src="./assets/scripts/dom.js"></script>
+    <script src="./assets/scripts/validation.js"></script>
+    <script src="./assets/scripts/filters.js"></script>
+    <script src="./assets/scripts/render.js"></script>
+    <script src="./assets/scripts/modals.js"></script>
+    <script src="./assets/scripts/contacts.js"></script>
+    <script src="./assets/scripts/labels.js"></script>
+    <script src="./assets/scripts/bulk.js"></script>
+    <script src="./assets/scripts/events.js"></script>
+    <script src="./assets/scripts/init.js"></script>
   </body>
 </html>
