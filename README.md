@@ -1,6 +1,6 @@
 # 📒 Gede Contacts – Modern Contact Management App
 
-A modern, feature-rich contact management application inspired by Google Contacts. Built with vanilla JavaScript and modular architecture, featuring advanced validation, trash management, and real-time search capabilities. All data is stored locally using browser LocalStorage.
+A modern, feature-rich contact management application inspired by Google Contacts. Built with vanilla JavaScript and modular architecture, featuring advanced validation, trash management, bulk operations, and real-time search capabilities. All data is stored locally using browser LocalStorage.
 
 ## 🧑‍💻 Author
 
@@ -48,20 +48,34 @@ open index.html
 - 🎯 Filter contacts by label
 - 📝 Assign labels via contact form dropdown
 
-### �️ Trash Management
+### 🗑️ Trash Management
 
 - 🗑️ Soft delete with 30-day retention period
-- ♻️ Restore deleted contacts
+- ♻️ Restore deleted contacts (with green confirmation button)
 - 🔥 Permanent delete option
 - 🧹 Empty trash (bulk delete)
 - ⏰ Auto-cleanup of expired trash items
 - ⚠️ Trash banner with retention reminder
+- 📅 Smart date display (Today/Yesterday or formatted date)
+- 🔴 Red warning for contacts expiring in <7 days
 
 ### 🔍 Search & Sort
 
 - 🔎 **Real-time Search** – Search by name or email
 - 🔤 **Smart Sorting** – Toggle between A-Z and Z-A
 - ⚡ **Instant Results** – No page reload required
+
+### ☑️ Bulk Operations
+
+- ☑️ **Select All** – Select all visible contacts
+- ☑️ **Individual Selection** – Click checkboxes to select contacts
+- 🏷️ **Bulk Add Label** – Add/change label for multiple contacts
+- 🗑️ **Bulk Delete** – Move multiple contacts to trash
+- ♻️ **Bulk Restore** – Restore multiple contacts from trash
+- 🔥 **Bulk Delete Forever** – Permanently delete multiple contacts
+- 📊 **Selection Counter** – Shows number of selected contacts
+- 🎨 **Visual Feedback** – Selected rows highlighted in blue
+- 🎯 **Context-Aware** – Different actions for normal view vs trash view
 
 ### ✅ Advanced Validation
 
@@ -72,30 +86,61 @@ open index.html
 
 ### 🎨 UI/UX Features
 
-- 📱 Responsive sidebar with toggle
-- 🎨 Color-coded avatars based on name hash
-- 🔔 Confirmation modals for destructive actions
-- 🎯 Active menu highlighting
-- 📊 Contact counter badge
-- 🌈 Modern Tailwind CSS styling
+- 📱 **Responsive Layout** – Header, Sidebar, Main content structure
+- 🍔 **Hamburger Menu** – Toggle sidebar visibility
+- 🎨 **Enhanced Styling** – Custom CSS with shadows, animations, hover effects
+- 🎯 **Active Menu Highlighting** – Visual feedback for current view
+- 📊 **Contact Counter Badge** – Shows total contacts
+- 🌈 **Modern Tailwind CSS** – Utility-first styling
+- 🎭 **Modal Animations** – Smooth transitions for modals
+- 📜 **Custom Scrollbar** – Styled scrollbar for better UX
+- 💫 **Avatar Animations** – Hover effects on avatars
+- 🎨 **Color-coded Buttons** – Green for restore, red for delete
+- 📱 **Mobile Optimized** – Responsive design for all screen sizes
+
+### 👁️ Detail Panel
+
+- 🖼️ **Square Avatar** – Rounded corners instead of circle
+- 📝 **Name at Top** – Centered with favorite star beside it
+- 📞 **Contact Info** – Phone, email, address, label
+- ⭐ **Quick Favorite** – Toggle favorite from detail panel
+- ✏️ **Quick Edit** – Edit contact directly
+- 🗑️ **Quick Delete** – Move to trash or delete forever
+- ♻️ **Quick Restore** – Restore from trash (trash view only)
 
 ## 🏗️ Project Structure
 
 ```text
 gede-contacts/
-├── index.html              # Main HTML file
+├── index.html                      # Main HTML file
 ├── assets/
 │   ├── scripts/
-│   │   ├── storage.js      # LocalStorage operations
-│   │   ├── state.js        # Business logic & validation
-│   │   ├── ui.js           # DOM manipulation & rendering
-│   │   └── main.js         # Event handlers & initialization
+│   │   ├── storage.js              # LocalStorage operations
+│   │   ├── state.js                # State management
+│   │   ├── dom.js                  # DOM element caching
+│   │   ├── validation.js           # Form validation rules
+│   │   ├── filters.js              # Filter logic
+│   │   ├── render.js               # UI rendering functions
+│   │   ├── modals.js               # Modal operations
+│   │   ├── contacts.js             # Contact CRUD operations
+│   │   ├── labels.js               # Label management
+│   │   ├── bulk.js                 # Bulk operations
+│   │   ├── events.js               # Event handlers
+│   │   └── init.js                 # App initialization
+│   ├── styles/
+│   │   └── style.css               # Custom CSS enhancements
+│   ├── icons/
+│   │   └── contact.svg             # App icon
 │   └── images/
-│       └── address-book-drawio.jpg
-├── app.test.js             # Jest unit tests
-├── package.json            # NPM configuration
-├── README.md               # This file
-└── README-TESTING.md       # Testing documentation
+│       └── address-book-drawio.jpg # Flowchart diagram
+├── app.test.js                     # Jest unit tests
+├── package.json                    # NPM configuration
+├── README.md                       # This file
+├── README-TESTING.md               # Testing documentation
+├── ARCHITECTURE.md                 # Architecture documentation
+├── SCRIPTS-STRUCTURE.md            # Scripts structure guide
+├── BULK_OPERATIONS_GUIDE.md        # Bulk operations guide
+└── TROUBLESHOOTING.md              # Troubleshooting guide
 ```
 
 ### 📦 Modular Architecture
@@ -106,27 +151,82 @@ gede-contacts/
 - `loadLabels()` / `saveLabels()`
 - `clearAllContacts()`
 
-**state.js** – Business logic & state management
+**state.js** – State management
 
-- Contact CRUD operations
-- Label management
-- Validation rules & duplicate checking
-- Filter & sort logic
-- Trash management with auto-cleanup
+- Application state (activeView, selectedContacts, filters)
+- View switching logic
+- Filter state management
 
-**ui.js** – Presentation layer
+**dom.js** – DOM element caching
 
-- DOM caching and manipulation
-- Rendering functions (contacts, labels, avatars)
-- Modal utilities
+- Centralized DOM element references
+- Improves performance by caching selectors
+
+**validation.js** – Form validation
+
+- Field validation rules
+- Phone number normalization
+- Duplicate contact detection
+- Form validation logic
+
+**filters.js** – Advanced filtering
+
+- Filter logic (email, phone, label, avatar, favorites)
+- Filter state management
+- Filter chip rendering
+
+**render.js** – UI rendering
+
+- Contact list rendering
+- Label list rendering
+- Avatar generation
 - Empty state handling
-- Error message display
+- Bulk action bar updates
+- Dynamic table headers
 
-**main.js** – Application initialization
+**modals.js** – Modal operations
 
-- Event listener setup
-- Real-time validation binding
-- App initialization
+- Form modal (add/edit contact)
+- Confirmation modals
+- Label modal
+- Bulk label modal
+- Detail panel
+- Alert modals
+
+**contacts.js** – Contact operations
+
+- CRUD operations
+- Trash management
+- Favorite toggle
+- Auto-cleanup expired trash
+
+**labels.js** – Label management
+
+- Create, edit, delete labels
+- Label assignment
+- Label filtering
+
+**bulk.js** – Bulk operations
+
+- Select/deselect contacts
+- Bulk label assignment
+- Bulk delete/restore
+- Bulk permanent delete
+
+**events.js** – Event handlers
+
+- Form submission
+- Search and sort
+- Menu navigation
+- Bulk action events
+- Real-time validation
+
+**init.js** – Application initialization
+
+- Load initial data
+- Cleanup expired trash
+- Render initial UI
+- Setup event listeners
 
 ## 🧠 System Flow
 
@@ -135,7 +235,7 @@ gede-contacts/
 ```text
 ┌─────────────────────────────────────────┐
 │         Load Application                │
-│  (HTML + CSS + JS + libphonenumber)     │
+│  (HTML + CSS + JS + Libraries)          │
 └──────────────┬──────────────────────────┘
                │
                ▼
@@ -150,6 +250,7 @@ gede-contacts/
 │  • Cleanup expired trash (>30 days)     │
 │  • Bind event listeners                 │
 │  • Render UI (contacts, labels, counts) │
+│  • Setup real-time validation           │
 └──────────────┬──────────────────────────┘
                │
                ▼
@@ -157,6 +258,8 @@ gede-contacts/
 │         User Interactions               │
 │  • Add/Edit/Delete contacts             │
 │  • Search & Sort                        │
+│  • Apply advanced filters               │
+│  • Bulk operations                      │
 │  • Manage labels                        │
 │  • Toggle favorites                     │
 └─────────────────────────────────────────┘
@@ -200,13 +303,35 @@ User clicks "Delete" on contact
            ↓
     User confirms
            ↓
-    Add deletedAt timestamp
+    Add deletedAt timestamp (ISO 8601)
            ↓
     Save to LocalStorage
            ↓
     Contact moves to Trash view
            ↓
     (After 30 days: auto-cleanup on app load)
+```
+
+### Bulk Operations Flow
+
+```text
+User selects multiple contacts (checkboxes)
+           ↓
+    Bulk action bar appears
+    Shows: [Count] | Set Label | Delete | ✕
+           ↓
+    User clicks bulk action
+           ↓
+    Show confirmation modal
+    (Green button for Restore, Red for Delete)
+           ↓
+    User confirms
+           ↓
+    Apply action to all selected contacts
+           ↓
+    Save to LocalStorage
+           ↓
+    Deselect all & refresh UI
 ```
 
 ## 🔁 Flowchart
@@ -219,6 +344,7 @@ User clicks "Delete" on contact
 - **Tailwind CSS** – Utility-first styling (CDN)
 - **Vanilla JavaScript** – No frameworks, pure ES6+
 - **libphonenumber-js** – International phone number formatting
+- **Day.js** – Date formatting and manipulation
 - **LocalStorage API** – Client-side data persistence
 - **Jest** – Unit testing framework
 
@@ -261,10 +387,12 @@ User clicks "Delete" on contact
     "avatar": "",
     "label": "Mentor",
     "favorite": false,
-    "deletedAt": 1708876800000
+    "deletedAt": "2025-01-30T03:15:17.673Z"
   }
 ]
 ```
+
+**Note:** `deletedAt` uses ISO 8601 format for better readability and compatibility.
 
 ### Labels Data
 
@@ -314,7 +442,7 @@ User clicks "Delete" on contact
 
 ## 🧪 Testing
 
-The project includes comprehensive Jest unit tests for API operations.
+The project includes comprehensive Jest unit tests covering 45 test cases.
 
 ```bash
 # Install dependencies
@@ -331,11 +459,14 @@ npm run test:coverage
 
 - ✅ Storage operations (load/save contacts and labels)
 - ✅ Validation (name, phone, email, address)
-- ✅ Duplicate detection with phone normalization
+- ✅ Phone normalization (08xxx, +62xxx, 62xxx)
+- ✅ Duplicate detection with format normalization
 - ✅ Filter and sort functionality
 - ✅ Contact CRUD operations
 - ✅ Trash management
 - ✅ Integration workflows
+
+**Test Results:** 45/45 tests passing ✅
 
 See [README-TESTING.md](README-TESTING.md) for detailed testing documentation.
 
@@ -346,20 +477,26 @@ See [README-TESTING.md](README-TESTING.md) for detailed testing documentation.
 - Duplicate phone detection with format normalization
 - Comprehensive field validation
 - Soft delete with recovery option
+- Auto-cleanup of expired trash items
 
 ### 🎨 User Experience
 
 - Real-time search and filtering
+- Bulk operations for efficiency
 - Instant validation feedback
 - Confirmation dialogs for destructive actions
 - Smooth animations and transitions
+- Context-aware UI (different views for normal/trash)
+- Smart date formatting (Today/Yesterday)
 
 ### 🏗️ Code Quality
 
-- Modular architecture (separation of concerns)
+- Modular architecture (12 separate script files)
+- Separation of concerns (storage, state, UI, validation)
 - Clean, maintainable code
 - Comprehensive error handling
-- Unit tested API layer
+- Unit tested (45 test cases)
+- Global scope for easy debugging
 
 ## 📝 License
 
