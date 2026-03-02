@@ -94,13 +94,13 @@ const storageCode = fs.readFileSync(
 );
 eval(storageCode);
 
-// Read and evaluate state.js (contains validation)
-const stateCode = fs.readFileSync(
-  path.join(__dirname, "assets/scripts/state.js"),
+// Read and evaluate validation.js
+const validationCode = fs.readFileSync(
+  path.join(__dirname, "assets/scripts/validation.js"),
   "utf8",
 );
 
-// Mock DOM object and UI functions before evaluating state.js
+// Mock DOM object and UI functions before evaluating validation.js
 global.DOM = {
   inputs: {
     name: { value: "" },
@@ -113,6 +113,20 @@ global.DOM = {
 global.showFieldError = jest.fn();
 global.clearFieldError = jest.fn();
 
+eval(validationCode);
+
+// Read and evaluate contacts.js (contains generateId)
+const contactsCode = fs.readFileSync(
+  path.join(__dirname, "assets/scripts/contacts.js"),
+  "utf8",
+);
+eval(contactsCode);
+
+// Read and evaluate state.js
+const stateCode = fs.readFileSync(
+  path.join(__dirname, "assets/scripts/state.js"),
+  "utf8",
+);
 eval(stateCode);
 
 describe("Storage Module Tests", () => {
