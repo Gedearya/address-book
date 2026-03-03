@@ -125,6 +125,10 @@ function openBulkLabelModal() {
   const selectedIds = Array.from(state.selectedContacts);
   const contacts = loadContacts().filter((c) => selectedIds.includes(c.id));
 
+  const count = state.selectedContacts.size;
+  DOM.bulkLabelCount.textContent = count;
+  DOM.bulkLabelWord.textContent = count === 1 ? "contact" : "contacts";
+
   const labels = [...new Set(contacts.map((c) => c.label).filter(Boolean))];
 
   if (labels.length === 1) {

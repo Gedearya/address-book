@@ -39,6 +39,7 @@ const DOM = {
   bulkLabelModalTitle: document.getElementById("bulkLabelModalTitle"),
   bulkLabelSelect: document.getElementById("bulkLabelSelect"),
   bulkLabelCount: document.getElementById("bulkLabelCount"),
+  bulkLabelWord: document.getElementById("bulkLabelWord"),
   cancelBulkLabelBtn: document.getElementById("cancelBulkLabelBtn"),
   applyBulkLabelBtn: document.getElementById("applyBulkLabelBtn"),
   detailName: document.getElementById("detailName"),
