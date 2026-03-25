@@ -212,6 +212,47 @@ function renderLabelEmptyState() {
 }
 
 // ================= RENDER =================
+function updateTableHeader() {
+  const thead = document.querySelector("table thead tr");
+
+  if (state.activeView === "trash") {
+    // Trash view header
+    thead.innerHTML = `
+      <th class="text-left p-3 w-12">
+        <input
+          type="checkbox"
+          id="selectAllCheckbox"
+          class="w-4 h-4 text-blue-600 rounded cursor-pointer"
+          title="Select All"
+        />
+      </th>
+      <th class="text-left p-3">Name</th>
+      <th class="text-left p-3">Deleted</th>
+      <th class="text-left p-3">Delete Forever</th>
+    `;
+  } else {
+    // Normal view header
+    thead.innerHTML = `
+      <th class="text-left p-3 w-12">
+        <input
+          type="checkbox"
+          id="selectAllCheckbox"
+          class="w-4 h-4 text-blue-600 rounded cursor-pointer"
+          title="Select All"
+        />
+      </th>
+      <th class="text-left p-3">Name</th>
+      <th class="text-left p-3">Email</th>
+      <th class="text-left p-3">Phone</th>
+      <th class="text-left p-3">Label</th>
+    `;
+  }
+
+  // Re-attach select all event listener
+  DOM.selectAllCheckbox = document.getElementById("selectAllCheckbox");
+  DOM.selectAllCheckbox.onclick = handleSelectAll;
+}
+
 function renderAvatar(
   contact,
   size = "w-9 h-9",
@@ -231,6 +272,56 @@ function renderAvatar(
 
 function renderContactRow(contact) {
   const isSelected = state.selectedContacts.has(contact.id);
+
+  // Trash view - different columns
+  if (state.activeView === "trash" && contact.deletedAt) {
+    const deletedDate = dayjs(contact.deletedAt);
+    const deleteForeverDate = deletedDate.add(TRASH_RETENTION_DAYS, "day");
+    const now = dayjs();
+
+    // Format: "16 Feb 2024" atau "Today" atau "Yesterday"
+    const formatDeletedDate = () => {
+      const diffDays = now.diff(deletedDate, "day");
+      if (diffDays === 0) return "Today";
+      if (diffDays === 1) return "Yesterday";
+      return deletedDate.format("D MMM YYYY");
+    };
+
+    // Format: "15 Mar 2024" dengan warna merah jika kurang dari 7 hari
+    const daysUntilDelete = deleteForeverDate.diff(now, "day");
+    const deleteForeverText = deleteForeverDate.format("D MMM YYYY");
+    const deleteForeverClass =
+      daysUntilDelete <= 7 ? "text-red-600 font-semibold" : "";
+
+    return `
+      <tr class="border-b hover:bg-gray-100 ${isSelected ? "bg-blue-50" : ""}">
+        <td class="p-3">
+          <input
+            type="checkbox"
+            class="contact-checkbox w-4 h-4 text-blue-600 rounded cursor-pointer"
+            data-id="${contact.id}"
+            ${isSelected ? "checked" : ""}
+            onclick="event.stopPropagation(); toggleSelectContact(${contact.id})"
+          />
+        </td>
+        <td class="p-3 flex items-center gap-3 cursor-pointer" onclick="showDetail(${contact.id})">
+          ${renderAvatar(contact)}
+          <div>
+            <div>${contact.name}</div>
+            <div class="text-xs text-gray-500">${contact.email || contact.phone || ""}</div>
+          </div>
+        </td>
+        <td class="p-3 cursor-pointer text-gray-600" onclick="showDetail(${contact.id})">
+          ${formatDeletedDate()}
+        </td>
+        <td class="p-3 cursor-pointer ${deleteForeverClass}" onclick="showDetail(${contact.id})">
+          ${deleteForeverText}
+          ${daysUntilDelete <= 7 ? `<div class="text-xs">(${daysUntilDelete} days left)</div>` : ""}
+        </td>
+      </tr>`;
+  }
+
+  // Normal view - original columns
   const labelBadge = contact.label
     ? `<div class="inline-block bg-blue-100 text-blue-600 
          px-3 py-1 rounded-full text-xs font-medium">
@@ -239,7 +330,7 @@ function renderContactRow(contact) {
     : "";
 
   return `
-    <tr class="border-b hover:bg-gray-500 ${isSelected ? "bg-blue-50" : ""}">
+    <tr class="border-b hover:bg-gray-100 ${isSelected ? "bg-blue-50" : ""}">
       <td class="p-3">
         <input
           type="checkbox"
@@ -262,6 +353,9 @@ function renderContactRow(contact) {
 }
 
 function renderContacts(data = loadContacts()) {
+  // Update table header based on view
+  updateTableHeader();
+
   // Determine empty state type
   if (data.length === 0) {
     let emptyStateType;
