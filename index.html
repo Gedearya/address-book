@@ -548,6 +548,14 @@
     </div>
 
     <script src="https://unpkg.com/libphonenumber-js@1.11.1/bundle/libphonenumber-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/plugin/relativeTime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/locale/id.min.js"></script>
+    <script>
+      // Configure Day.js
+      dayjs.extend(window.dayjs_plugin_relativeTime);
+      dayjs.locale("id");
+    </script>
     <script src="./assets/scripts/storage.js"></script>
     <script src="./assets/scripts/state.js"></script>
     <script src="./assets/scripts/ui.js"></script>

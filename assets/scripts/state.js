@@ -239,7 +239,7 @@ function deleteContact(id, name) {
     `This contact <span class="font-semibold text-red-600">"${name}"</span> will be permanently deleted from this account after ${TRASH_RETENTION_DAYS} days.`,
     () => {
       const data = loadContacts().map((c) =>
-        c.id === id ? { ...c, deletedAt: Date.now() } : c,
+        c.id === id ? { ...c, deletedAt: new Date().toISOString() } : c,
       );
       saveContacts(data);
       refreshUI();
@@ -281,10 +281,12 @@ function deletePermanent(id) {
 }
 
 function cleanupTrash() {
-  const now = Date.now();
+  const now = new Date();
   const cleaned = loadContacts().filter((c) => {
     if (!c.deletedAt) return true;
-    return now - c.deletedAt < TRASH_RETENTION_MS;
+    const deletedDate = new Date(c.deletedAt);
+    const diffMs = now - deletedDate;
+    return diffMs < TRASH_RETENTION_MS;
   });
   saveContacts(cleaned);
   updateCounters();
@@ -330,7 +332,7 @@ function bulkDelete() {
   if (state.selectedContacts.size === 0) return;
 
   const selectedIds = Array.from(state.selectedContacts);
-  const now = Date.now();
+  const now = new Date().toISOString();
 
   const contacts = loadContacts().map((c) =>
     selectedIds.includes(c.id) ? { ...c, deletedAt: now } : c,
