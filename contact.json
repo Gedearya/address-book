@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "name": "Gede Arya",
+    "phone": "085891840619",
+    "email": "arya@gmail.com",
+    "address": "Jakarta, Indonesia",
+    "avatar": "https://media.licdn.com/dms/image/v2/D5603AQG5HEBrjc-vkg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1692656478721?e=2147483647&v=beta&t=hS6xhnpFQrVFrA2-z5y5w6My5dA4Buq6tcOA6mDQJlk",
+    "label": "",
+    "favorite": false
+  },
+  {
+    "id": 2,
+    "name": "Haidar Hanif",
+    "phone": "085777222444",
+    "email": "haidar@gmail.com",
+    "address": "BSD, Indonesia",
+    "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwx-5gcEBhvzEi-VKd8-gq-bOOm6g0AJlqdw&s",
+    "label": "Mentor",
+    "favorite": false
+  },
+  {
+    "id": 3,
+    "name": "Ben Nata",
+    "phone": "085888646783",
+    "email": "ben@gmail.com",
+    "address": "Kediri, Indonesia",
+    "avatar": "https://media.licdn.com/dms/image/v2/C5603AQGUo5zmysXIYA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1631607209856?e=2147483647&v=beta&t=pkGy04kHCCOlHiySmbKCCAMZFvc57zG_Nhh5Pz08qn4",
+    "label": "Mentor",
+    "favorite": false
+  },
+  {
+    "id": 4,
+    "name": "Prabowo Subianto",
+    "phone": "085888776414",
+    "email": "wowo@gmail.com",
+    "address": "Kalimantan, Indonesia",
+    "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYJdvMCLnoRNJS71p04s2ahHfBmzcOTIwtQg&s",
+    "label": "President",
+    "favorite": false
+  },
+  {
+    "id": 5,
+    "name": "Joko Widodo",
+    "phone": "085878986445",
+    "email": "jokowow@gmail.com",
+    "address": "Solo, Indonesia",
+    "avatar": "https://ichef.bbci.co.uk/ace/ws/640/cpsprodpb/727f/live/dcee9e00-e51a-11ee-8cb3-4bf196fb1b9a.jpg.webp",
+    "label": "President",
+    "favorite": false
+  },
+  {
+    "id": 6,
+    "name": "Bahlil",
+    "phone": "086778399031",
+    "email": "bahlil@gmail.com",
+    "address": "Ambon, Indonesia",
+    "avatar": "https://satujabar.com/wp-content/uploads/2024/08/Bahlil-Lahadalia.jpg",
+    "label": "",
+    "favorite": false
+  },
+  {
+    "id": 7,
+    "name": "Lazuardy Anugrah",
+    "phone": "087766546789",
+    "email": "lazu@gmail.com",
+    "address": "Tangerang, Indonesia",
+    "avatar": "",
+    "label": "",
+    "favorite": false
+  },
+  {
+    "id": 8,
+    "name": "Muhammad Alroy",
+    "phone": "086557380027",
+    "email": "alroy@gmail.com",
+    "address": "Surabaya, Indonesia",
+    "avatar": "",
+    "label": "",
+    "favorite": false
+  },
+  {
+    "id": 9,
+    "name": "Dimas Mukhsinin",
+    "phone": "086739969106",
+    "email": "dimas@gmail.com",
+    "address": "Sumatera, Indonesia",
+    "avatar": "",
+    "label": "",
+    "favorite": false
+  },
+  {
+    "id": 10,
+    "name": "Ardanu",
+    "phone": "087573930622",
+    "email": "danu@gmail.com",
+    "address": "Bogor, Indonesia",
+    "avatar": "",
+    "label": "",
+    "favorite": false
+  }
+]
